@@ -1,131 +1,353 @@
-# MksU Sports Hub — Project Plan and Roles
+# MKSU CLEARANCE — Project Plan and Roles
 
-## Problem Statement (Graduation Clearance)
-- Machakos University currently runs a fully manual, paper-based graduation clearance. Students must walk forms across Finance, Faculty, Library, Mess, and Hostels to collect stamps, causing long queues, repeated visits, and frequent errors.
-- Payments (tuition plus a KES 5,500 graduation fee) are verified by hand with no digital sync, so mismatches and delays are common and force students to return multiple times.
-- Forms are printed, stamped, duplicated, and scanned to a shared drive; records are inconsistent, easily lost or damaged, and lack audit trails.
-- Every department visit is in person, creating barriers for students off-campus or with work commitments; staff rely on ledgers and spreadsheets, driving slow service and operational strain.
-- Students cannot track progress centrally, so they face confusion, lost time, and risk missing deadlines; staff have limited transparency, accountability, and historical retrieval.
-- Overall, the clearance experience is slow, error-prone, and stressful, leading to congestion during peak periods and delaying graduation readiness.
+## Project Summary
 
-## Solution (Digital Clearance System)
-- Single web portal: students initiate clearance online, upload required info once, and track status across all departments in one place.
-- Role-based workflows: Finance, Faculty, Library, Mess, and Hostels each get dashboards to approve/reject with reasons; no physical stamps.
-- Payments digitized: graduation fee (KES 5,500) and outstanding balances paid via online channels; receipts auto-matched to student records.
-- Automated verification: payment confirmations and departmental approvals update the student’s clearance state in real time with clear SLAs.
-- Document management: forms and evidence stored centrally with versioning and audit logs; no printing, stamping, or ad-hoc shared drives.
-- Notifications and tracking: students get alerts on approvals/rejections and can see a step-by-step checklist with who owns the next action.
-- Integrity and audit: every action is logged (who, when, what changed) to reduce disputes and improve accountability.
+**Machakos University Digital Graduation & Clearance System**
 
+A centralized web platform designed to automate the currently manual graduation clearance process at Machakos University. The system streamlines the workflow by allowing students to complete every step online, moving away from physical forms and inter-departmental movement.
 
+## Problem Statement
 
-## Team
-- Mwangi Stephen
-- Jane Mutie
-- Brian Kuria
-- Hezron Kipchirchir
-- Quizane Onyango
+Machakos University currently relies on a fully manual clearance process where students must physically move between multiple departments (COD, Finance, Library, Mess, Hostels, Workshops, Sports & Games) to obtain physical stamps.
+
+- Students face long queues and repeated trips to campus.
+- Forms must be manually downloaded, printed, and stamped.
+- There is no centralized system to track progress, leading to lost documents and delays.
+- Clearance forms are currently scanned and uploaded manually via Google Drive, which is inefficient (e.g., repetitive entry of information already stored in the university database and errors due to handwriting/incorrect information).
+
+## Proposed Solution
+
+A unified online platform that automates the entire clearance lifecycle:
+
+- **Digital Forms:** Forms are auto-filled with student records to eliminate manual entry.
+- **Departmental Dashboards:** Departments (Finance, Library, Mess, Hostels, etc.) can approve or decline requests digitally.
+- **Finance Integration:** A specific module for the automatic verification of fees and graduation charges.
+- **Real-time Tracking:** Students can track their clearance status and view approvals or rejections instantly.
+- **Notification System:** Alerts for pending actions, approvals, or rejections.
+- **Document Management:** Forms and evidence stored centrally with versioning and audit logs; no printing or ad-hoc shared drives.
+- **Accountability:** Automated digital records and transparent approval trails.
+
+## Why a Web-Based System
+
+- **Remote Access:** Allows students to complete clearance from anywhere without visiting campus.
+- **Centralization:** Unifies all departmental approvals into a single platform.
+- **Efficiency:** Reduces clearance time by up to 80% and eliminates paper-based workflows.
+- **Accountability:** Provides automated digital records and enhances transparency in the process.
+
+## Technology Stack
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Framework:** React.js
+- **Backend:** Python
+- **Framework:** Django
+- **Database:** MySQL
+
+## Target Users
+
+- **Students:** Graduating students requiring clearance.
+- **University Departments:** Finance, Library, COD, Mess, Hostels, Workshops, Sports & Games.
+- **Administration:** Staff responsible for verifying student status and approving clearances.
+
+## Competitive Advantage
+
+The system transforms a tedious physical process into a seamless digital experience. It eliminates the need for physical queues, ensures documents are never lost, and reduces the workload for staff by replacing manual stamping with one-click digital approvals.
+
+## Feasibility Summary
+
+- **Technical:** Utilizes standard, secure technologies (Django/React) and integrates with existing University SSO (e.g., students using their university emails @mksu.ac.ke or admission numbers as authentication).
+- **Operational:** Reduces repetitive manual work for staff, though change management is required to handle staff resistance to new workflows.
+- **Schedule:** The project is scoped to be completed within a 10-week timeline.
+
+## Project Timeline (MVP)
+
+| Phase | Duration | Timeline |
+|-------|----------|----------|
+| Phase 1: Requirements & Analysis | 1 week | Week 1 |
+| Phase 2: Backend Development | 3 weeks | Weeks 2–4 |
+| Phase 3: Frontend Development | 3 weeks | Weeks 5–7 |
+| Phase 4: Integration & Testing | 1 week | Week 8 |
+| Phase 5: Deployment | 2 weeks | Weeks 9–10 |
+
+## Phased Breakdown
+
+### Phase 1 (Week 1): Requirements & Analysis
+- Stakeholder meetings with departments and students.
+- Map existing clearance workflows and pain points.
+- Design database schema for students, departments, clearance records, and approvals.
+- Define API contracts between frontend and backend.
+- Plan security model and role-based access control.
+
+### Phase 2 (Weeks 2–4): Backend Development
+- Set up Django project, environment configs, logging, CORS, security headers.
+- Configure MySQL connection and migrations baseline.
+- Implement authentication (SSO with university email/admission number).
+- Implement role-based access control (Admin, Department Staff, Student).
+- Create core domain models and database tables.
+- Build departmental approval APIs.
+- Build student clearance tracking APIs.
+- Implement notification system (email/SMS alerts).
+- Add audit logging for all actions.
+- Write unit tests and API tests.
+
+### Phase 3 (Weeks 5–7): Frontend Development
+- Set up React app structure, routing, and state management.
+- Build login/authentication flows (SSO integration).
+- Build student dashboard (clearance status tracker, form submission, history).
+- Build departmental dashboards (Finance approval, Library approval, Mess approval, etc.).
+- Build admin dashboard (user management, system overview, reports).
+- Implement real-time status notifications.
+- Add form validation and error handling.
+- Ensure responsive design and accessibility.
+- Write component and integration tests.
+
+### Phase 4 (Week 8): Integration & Testing
+- End-to-end testing of clearance workflows.
+- Security testing (authentication, authorization, input validation).
+- Performance testing and optimization.
+- UAT with departments and select students.
+- Bug fixes and refinements.
+
+### Phase 5 (Weeks 9–10): Deployment & Training
+- Deploy backend to university servers/cloud with database backup.
+- Deploy frontend to hosting/CDN.
+- Conduct staff training on departmental approval workflows.
+- Conduct student awareness and onboarding.
+- Set up monitoring and alerts.
+- Provide documentation and runbooks.
+- Post-deployment support and hypercare.
 
 ## Roles and Responsibilities
-- Backend (Django, MySQL): authentication and closed-loop provisioning, APIs, business rules, integrations (internal systems and calendars), data security, role-based access.
-- Frontend (React): user flows for admin and students, dashboards, forms, calendars, sponsor showcase, client-side validation, accessibility.
-- Shared: API contracts, error handling conventions, logging/monitoring, testing, CI/CD checks.
 
-## Phased Plan (MVP)
-- Week 1: Requirements, security model, DB schema, API contracts.
-- Weeks 2–4 (Backend): Auth, RBAC, core domain models, services, integrations, unit tests.
-- Weeks 5–7 (Frontend): Layout/system shell, key pages, API wiring, validations, UX polish.
-- Week 8: Integration, API/client tests, security testing, UAT with Sports Dept.
-- Weeks 9–10: Deploy, train admins, docs handover, post-deploy support.
+### Backend Team (Django, MySQL)
+- Project initialization and environment setup.
+- Authentication system (SSO integration with university email).
+- Role-based access control (Admin, Department Staff, Student).
+- Database design and migrations.
+- Core domain models (Users, Students, Departments, Clearance Records, Approvals).
+- RESTful API endpoints for all features.
+- Clearance status tracking and workflow logic.
+- Notification system integration (email/SMS).
+- Audit logging and security.
+- Integration testing and unit testing.
+- API documentation (OpenAPI/Swagger).
+
+### Frontend Team (React, HTML/CSS)
+- Project initialization and structure setup.
+- Authentication UI (SSO login).
+- Student dashboard and clearance form submission.
+- Student clearance progress tracker.
+- Departmental approval dashboards for each department.
+- Admin dashboard for system overview and management.
+- Real-time notification display.
+- Form validation and error handling.
+- Responsive design and accessibility.
+- Component and integration testing.
+- Build pipeline and deployment configuration.
+
+### Shared Responsibilities
+- API contract definition and adherence.
+- Error handling conventions.
+- Logging and monitoring setup.
+- Testing standards and code review.
+- CI/CD pipeline configuration.
+- Security practices and compliance.
 
 ## Backend Work (Step by Step)
-1) Foundations
-- Set up Django project, env configs (.env templates), logging, CORS, security headers.
-- Configure MySQL connection, migrations baseline, health checks.
-2) Auth and Access Control
-- Closed-loop provisioning: admin-only user creation; no open signup.
-- Implement JWT/Session auth, password policies, MFA-ready hooks.
-- Role-based access: Admin, Coach/Staff, Student, Sponsor-Viewer.
-3) Core Domain Models (initial tables)
-- users (id, name, email, role, status, last_login, created_at, updated_at)
-- students (id, user_id FK, reg_number, faculty, program, year, eligibility_status)
-- teams (id, name, sport, coach_name, captain_student_id FK)
-- tournaments (id, name, sport, season, start_date, end_date, venue)
-- fixtures (id, tournament_id FK, home_team_id FK, away_team_id FK, match_datetime, venue, status, score_home, score_away)
-- results (id, fixture_id FK, summary, highlights_url)
-- achievements (id, student_id FK, title, description, date_awarded, media_url)
-- grievances (id, student_id FK, category, description, status, priority, assigned_admin_id FK, resolution_notes)
-- sponsors (id, name, logo_url, contact_email, tier)
-- sponsor_contributions (id, sponsor_id FK, amount, payment_reference, paid_at, purpose)
-- calendar_events (id, source_type, source_id, title, start, end, visibility, sync_status)
-- audit_logs (id, actor_id FK, action, entity, entity_id, metadata, created_at)
-4) Services and APIs
-- User provisioning endpoints (admin-only), login/logout, password reset.
-- Student profile CRUD, eligibility verification status updates.
-- Team and tournament management, fixtures CRUD, result posting.
-- Grievance submission and triage flows (create, assign, update status, resolve).
-- Sponsor portal: sponsor CRUD and contribution recording.
-- Calendar sync service: create/update events, push to Google Calendar where linked.
-- File/media handling: logos, highlights; store URLs (S3/minio-ready), validate types/size.
-5) Integrations
-- Google Calendar API: service account config, per-user opt-in tokens, retry/backoff.
-6) Security and Compliance
-- Input validation, rate limiting, RBAC checks on every endpoint.
-- Encrypt secrets at rest, use env vars, rotate keys procedure documented.
-- Audit logging for admin actions and financial events.
-7) Testing
-- Unit tests for services/models, API contract tests (e.g., pytest + DRF).
-- Mock external integrations; happy-path and failure-path cases.
-8) Delivery
-- Migrations for all tables, seed scripts for roles/admin account.
-- API docs (OpenAPI/Swagger), postman collection, runbook for ops.
+
+### 1) Foundations
+- Set up Django project with settings for dev, staging, and production.
+- Configure environment variables (.env files for secrets).
+- Set up logging, CORS, security headers (CSRF, HTTPS, etc.).
+- Configure MySQL connection, connection pooling.
+- Create migrations baseline and health check endpoints.
+
+### 2) Authentication & Access Control
+- Implement SSO integration with university email/admission number.
+- JWT or Session-based authentication.
+- Password policies and account management.
+- Role-based access control (RBAC): Admin, Department Staff, Student.
+- Implement permission checks on every endpoint.
+
+### 3) Core Domain Models (Database Tables)
+- **users** (id, email, admission_number, full_name, role, is_active, last_login, created_at, updated_at)
+- **students** (id, user_id FK, reg_number, faculty, program, graduation_year, eligibility_status)
+- **departments** (id, name, code, head_email, type) — e.g., Finance, Library, Mess, Hostels
+- **clearance_requests** (id, student_id FK, status, submission_date, completion_date, created_at, updated_at)
+- **clearance_approvals** (id, clearance_request_id FK, department_id FK, status, approved_by_id FK, approval_date, rejection_reason, notes)
+- **finance_records** (id, student_id FK, tuition_balance, graduation_fee_status, last_verified_date)
+- **notifications** (id, user_id FK, message, type, read, created_at, sent_at)
+- **audit_logs** (id, actor_id FK, action, entity, entity_id, changes, created_at, ip_address)
+
+### 4) Services and APIs
+- **Authentication Endpoints:** SSO login, logout, password reset, profile update.
+- **Student Endpoints:** Initiate clearance, submit forms, view status, view approval history.
+- **Department Endpoints:** View pending approvals, approve/reject clearance, add notes.
+- **Admin Endpoints:** User management, department management, system reports, audit logs.
+- **Notification Service:** Send email/SMS alerts on status changes.
+- **Finance Verification Service:** Integrate with finance system to verify fees and graduation charges.
+- **File Handling:** Store uploaded documents, manage versions.
+- **Clearance Workflow Engine:** Manage states and transitions.
+
+### 5) Security and Compliance
+- Input validation on all endpoints.
+- Rate limiting to prevent abuse.
+- RBAC checks on every endpoint.
+- Encrypt passwords and secrets at rest.
+- Use environment variables for all secrets.
+- Audit logging for sensitive actions.
+- HTTPS enforcement.
+
+### 6) Testing
+- Unit tests for services and models (pytest).
+- API integration tests.
+- Mock external integrations.
+- Happy-path and failure-path test cases.
+- Security testing (SQL injection, XSS, etc.).
+
+### 7) Delivery
+- Database migrations for all tables.
+- Seed scripts for initial admin users and departments.
+- API documentation (OpenAPI/Swagger).
+- Runbook for operations and troubleshooting.
 
 ## Frontend Work (Step by Step)
-1) Foundations
-- Set up React app structure, routing, state (lightweight store), env configs.
-- Global theming, layout shell, navigation, role-aware menus.
-2) Auth Flows
-- Login, logout, token storage/refresh, guard routes by role.
-- Password reset screens aligned with backend.
-3) Admin Dashboard
-- User provisioning UI (create/disable users by role), eligibility status view.
-- Teams/tournaments management: CRUD forms, validation, table/list views.
-- Fixtures/results management with status updates and score entry.
-- Grievance triage board: filter/search, assign admin, update status, resolution notes.
-- Sponsor portal admin: sponsor CRUD, upload logo, view contributions, flag anomalies.
-4) Student Portal
-- Profile view/edit, achievements timeline, eligibility status indicator.
-- Fixtures and results: cards/table, filters by sport/date, match details view.
-- Grievance submission form with status tracking.
-- Calendar sync: connect Google, show sync status, allow disconnect.
-5) Sponsor/Viewer Pages
-- Public-ish sponsor gallery (within closed loop), logos, tiers, contributions summary.
-- Showcase tournaments and upcoming fixtures.
-6) UX and Validation
-- Form validation, inline errors, loading/empty states, optimistic updates where safe.
-- Accessible components (keyboard, ARIA), responsive layouts.
-7) Testing
-- Component and integration tests for critical flows (auth, forms, tables, sync).
-- Contract tests against mocked API; snapshot key UI states.
-8) Delivery
-- Build pipeline, environment configs per stage, error reporting hook (e.g., Sentry-ready).
+
+### 1) Foundations
+- Set up React app with routing (React Router).
+- Global state management (Context API or Redux).
+- Environment configs for dev, staging, production.
+- Global styling and theme.
+- Navigation and layout shell.
+
+### 2) Authentication Flows
+- SSO login form with university email/admission number.
+- Token storage (localStorage/sessionStorage) and refresh logic.
+- Route guards based on user role.
+- Logout functionality.
+- Password reset flows (if supported).
+
+### 3) Student Portal
+- Dashboard with student clearance status overview.
+- Clearance form (auto-filled with student data).
+- Step-by-step clearance progress tracker showing which departments have approved/pending.
+- Notification center showing alerts and updates.
+- Clearance history and past records.
+
+### 4) Departmental Dashboards
+- Dashboard for each department (Finance, Library, Mess, Hostels, etc.).
+- List/table of pending clearance requests assigned to the department.
+- Approval form (approve/reject with optional notes).
+- Filter and search for requests.
+- Bulk approval actions.
+- Status overview and metrics.
+
+### 5) Admin Dashboard
+- System overview and metrics (total students, pending approvals, completion rate).
+- User management (create/disable users by role).
+- Department management.
+- Audit log viewer.
+- Reports and analytics.
+
+### 6) UX and Validation
+- Form validation with inline error messages.
+- Loading states and spinners.
+- Empty states and error fallbacks.
+- Success notifications.
+- Responsive design (mobile, tablet, desktop).
+- Accessibility (WCAG 2.1 compliance).
+
+### 7) Testing
+- Component tests (Jest/React Testing Library).
+- Integration tests for critical workflows.
+- Contract tests against mocked API.
+- Accessibility tests.
+
+### 8) Delivery
+- Build pipeline (npm build, minification).
+- Environment-specific configuration.
+- Error reporting (e.g., Sentry-ready).
+- Performance optimization.
 
 ## Integration and Testing (Week 8)
-- End-to-end happy paths: auth, profile edit, fixture browse, grievance lifecycle, sponsor payment webhook.
-- Security checks: role gating, broken auth/IDOR attempts, rate limits, input fuzzing.
-- Performance sanity: key pages/API p95 targets, DB index review.
-- UAT with Sports Dept on pre-prod data; capture sign-offs.
+
+### End-to-End Testing
+- Student completes clearance from form submission to final approval.
+- Department staff approve and reject clearances.
+- Notifications are sent and displayed correctly.
+- Status tracking updates in real time.
+
+### Security Testing
+- Authentication and authorization checks.
+- Input validation and sanitization.
+- Rate limiting verification.
+- Audit logging verification.
+
+### Performance Testing
+- Key pages load within acceptable times.
+- API responses within SLA targets.
+- Database query optimization.
+
+### UAT with Departments
+- Real workflows with Finance, Library, Mess, Hostels.
+- Capture feedback and sign-offs.
+- Final refinements and bug fixes.
 
 ## Deployment and Training (Weeks 9–10)
-- Deploy backend (gunicorn + reverse proxy) and MySQL with backups; seed initial admin.
-- Deploy frontend build to hosting/CDN with correct env vars.
-- Admin training: account provisioning, grievance handling, fixture/result updates, sponsor reconciliations.
-- Documentation: runbooks, FAQ, onboarding guides; set up monitoring/alerts.
-- Post-deploy hypercare window and ticket channel.
 
-## Risks and Mitigations (Condensed)
-- Integration failures (Google): mock-first, retry/backoff, clear timeouts.
-- Security gaps: RBAC on every endpoint/view, audit logs, regular dependency scans.
-- Scope creep/schedule slips: change control, weekly demos, prioritized backlog.
-- Low adoption: early comms with student reps, simple UX, calendar sync promotion.
-- Data errors/complaint overload: validation, required fields, triage queues, SLAs.
+### Backend Deployment
+- Deploy Django app to university servers or cloud (e.g., AWS, DigitalOcean).
+- Configure gunicorn/uWSGI and reverse proxy (Nginx/Apache).
+- Set up MySQL database with backups and replication.
+- Configure SSL/TLS certificates.
+- Set up environment variables and secrets management.
+
+### Frontend Deployment
+- Build production-optimized React bundle.
+- Deploy to hosting (CDN, university servers, or cloud).
+- Configure domain and DNS.
+
+### Staff Training
+- Training sessions for Finance, Library, Mess, Hostels staff.
+- Walkthrough of departmental dashboards and approval workflows.
+- Troubleshooting and support.
+
+### Student Awareness
+- Communication campaign via email, messaging, campus announcements.
+- Step-by-step guides for students.
+- FAQ and support channel setup.
+
+### Documentation and Support
+- System runbook for IT operations.
+- Troubleshooting guides.
+- User documentation for students and staff.
+- Support contact and escalation procedures.
+- Post-deployment monitoring and alerts.
+
+## Expected Impact
+
+- **Reduced Clearance Time:** From weeks to days.
+- **Improved Transparency:** Students always know status and next steps.
+- **Reduced Paper Usage:** Fully digital workflows.
+- **Reduced Errors:** Auto-filled forms and digital verification.
+- **Better Accountability:** Audit trails and digital records.
+- **Reduced Staff Workload:** One-click approvals instead of manual stamping.
+- **Enhanced Student Experience:** Remote access and clear tracking.
+
+## Risks and Mitigations
+
+### Technical Risks
+- **Database/Server Failures:** Regular backups, replication, monitoring, and alert systems.
+- **Integration Issues:** Thorough testing of SSO and finance system integration before deployment.
+- **Security Vulnerabilities:** Regular security audits, dependency scanning, code review.
+
+### Project Management Risks
+- **Scope Creep:** Strict change control, prioritized backlog, weekly demos.
+- **Schedule Delays:** Buffer time in timeline, regular progress tracking, escalation procedures.
+
+### Organizational Risks
+- **Staff Resistance:** Early communication, training, support, highlighting benefits.
+- **Low Student Adoption:** Clear communication, ease of use, incentives (e.g., faster clearance).
+
+### Operational Risks
+- **Data Entry Errors:** Validation, required fields, auto-fill from existing records.
+- **High Support Load:** FAQ, self-service guides, ticketing system.
