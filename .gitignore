@@ -142,3 +142,140 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+
+# ========================================
+# Python & Django (Backend)
+# ========================================
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Django media and static files
+media/
+staticfiles/
+static/
+
+# Database dumps
+*.sql
+*.dump
+*.sqlite
+
+# Environment files (CRITICAL - Contains passwords and secrets)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Logs
+logs/
+*.log
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ========================================
+# Security - Sensitive Files
+# ========================================
+
+# SSH keys
+*.pem
+*.key
+*.pub
+id_rsa*
+
+# Certificates
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# Credentials
+credentials.json
+secrets.json
+config.json
+*.credentials
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PIPFILE.lock
+
+# ========================================
+# Project Specific
+# ========================================
+
+# Uploaded files (may contain sensitive student data)
+BACKEND/media/
+BACKEND/uploads/
+receipts/
+fee_statements/
+evidence/
+
+# Local development databases
+*.db
+*.sqlite
+*.sqlite3

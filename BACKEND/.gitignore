@@ -64,3 +64,61 @@ logs/
 
 # Windows
 Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# ========================================
+# Security - CRITICAL
+# ========================================
+
+# Environment files with passwords and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# SSH keys and certificates
+*.pem
+*.key
+*.pub
+*.crt
+*.cer
+id_rsa*
+
+# Credentials and secrets
+credentials.json
+secrets.json
+config.json
+*.credentials
+
+# ========================================
+# Uploaded Files (May contain sensitive data)
+# ========================================
+
+# Media uploads
+media/
+uploads/
+receipts/
+fee_statements/
+evidence/
+
+# ========================================
+# Additional Security
+# ========================================
+
+# Database dumps
+*.sql
+*.dump
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Jupyter notebooks (may contain sensitive queries)
+*.ipynb_checkpoints/
+
+# Migration files with sensitive data (optional - uncomment if needed)
+# */migrations/*.py
+# !*/migrations/__init__.py
