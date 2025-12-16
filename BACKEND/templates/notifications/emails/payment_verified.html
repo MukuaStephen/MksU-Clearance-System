@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>Payment Verified</h2>
+    <p>Hello {{ recipient.full_name }},</p>
+    <p>Your payment has been verified. You can now submit a clearance request.</p>
+    {% if notification.payment %}
+    <p><strong>Amount:</strong> {{ notification.payment.amount }}<br/>
+       <strong>Transaction:</strong> {{ notification.payment.transaction_id }}</p>
+    {% endif %}
+    <p>Proceed to <a href="{{ site_url }}">{{ site_name }}</a>.</p>
+  </body>
+</html>

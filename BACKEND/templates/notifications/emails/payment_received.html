@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>Payment Received</h2>
+    <p>Hello {{ recipient.full_name }},</p>
+    <p>We have received your payment. It will be verified shortly.</p>
+    {% if notification.payment %}
+    <p><strong>Amount:</strong> {{ notification.payment.amount }}<br/>
+       <strong>Transaction:</strong> {{ notification.payment.transaction_id }}</p>
+    {% endif %}
+    <p>Track status at <a href="{{ site_url }}">{{ site_name }}</a>.</p>
+  </body>
+</html>

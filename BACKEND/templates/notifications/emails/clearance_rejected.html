@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>Clearance Rejected</h2>
+    <p>Hello {{ recipient.full_name }},</p>
+    <p>Your clearance request has been rejected. Please review the approval notes and address any issues.</p>
+    {% if notification.clearance %}
+    <p><strong>Request ID:</strong> {{ notification.clearance.id }}</p>
+    {% endif %}
+    <p>Visit {{ site_name }} for details: <a href="{{ site_url }}">{{ site_url }}</a></p>
+  </body>
+</html>

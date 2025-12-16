@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>Clearance Approved</h2>
+    <p>Hello {{ recipient.full_name }},</p>
+    <p>Congratulations! Your clearance request has been fully approved.</p>
+    {% if notification.clearance %}
+    <p><strong>Request ID:</strong> {{ notification.clearance.id }}</p>
+    {% endif %}
+    <p>You may proceed to collect your certificate per university guidelines.</p>
+  </body>
+</html>

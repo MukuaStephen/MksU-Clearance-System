@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>{{ notification.title }}</h2>
+    <p>{{ notification.message }}</p>
+    {% if notification.clearance %}
+    <p><strong>Clearance:</strong> #{{ notification.clearance.id }}</p>
+    {% endif %}
+    {% if notification.approval %}
+    <p><strong>Approval:</strong> #{{ notification.approval.id }}</p>
+    {% endif %}
+    {% if notification.payment %}
+    <p><strong>Payment:</strong> #{{ notification.payment.id }}</p>
+    {% endif %}
+    <hr/>
+    <p>Visit {{ site_name }}: <a href="{{ site_url }}">{{ site_url }}</a></p>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>Clearance Request Submitted</h2>
+    <p>Hello {{ recipient.full_name }},</p>
+    <p>Your clearance request has been submitted successfully and is now pending approvals.</p>
+    {% if notification.clearance %}
+    <p><strong>Request ID:</strong> {{ notification.clearance.id }}</p>
+    {% endif %}
+    <p>Track status at <a href="{{ site_url }}">{{ site_name }}</a>.</p>
+  </body>
+</html>

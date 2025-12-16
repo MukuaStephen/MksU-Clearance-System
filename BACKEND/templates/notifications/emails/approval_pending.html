@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    <h2>Approval Pending</h2>
+    <p>Hello {{ recipient.full_name }},</p>
+    <p>A clearance request requires your department's approval.</p>
+    {% if notification.approval %}
+    <p><strong>Student:</strong> {{ notification.approval.clearance_request.student.user.full_name }}<br/>
+       <strong>Department:</strong> {{ notification.approval.department.name }}</p>
+    {% endif %}
+    <p>Review at <a href="{{ site_url }}">{{ site_name }}</a>.</p>
+  </body>
+</html>
