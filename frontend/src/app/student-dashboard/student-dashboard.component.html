@@ -1,69 +1,42 @@
-<div class="dashboard-content">
+<div class="dashboard-layout">
 
-  <!-- Header -->
-  <div class="dashboard-header">
-    <h2>Welcome, Student</h2>
-    <p>Here is an overview of your clearance progress.</p>
-  </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h3 class="sidebar-title">Dashboard</h3>
 
-  <!-- Summary Cards -->
-  <div class="summary-grid">
-    <div class="summary-card approved">
-      <h3>Approved</h3>
-      <span>3</span>
+    <div class="sidebar-item" (click)="showDashboard()">Home</div>
+
+    <div class="sidebar-item" (click)="toggleClearanceMenu()">
+      Clearance
     </div>
 
-    <div class="summary-card pending">
-      <h3>Pending</h3>
-      <span>2</span>
-    </div>
-
-    <div class="summary-card denied">
-      <h3>Denied</h3>
-      <span>1</span>
-    </div>
-
-    <div class="summary-card not-submitted">
-      <h3>Not Submitted</h3>
-      <span>1</span>
-    </div>
-  </div>
-
-  <!-- Clearance Status Section -->
-  <div class="status-section">
-    <h3>Clearance Status</h3>
-
-    <div class="status-grid">
-      <div class="status-card approved">
-        <span>Chairperson / Department</span>
-        <strong>Approved</strong>
+    <div class="submenu" *ngIf="showClearanceMenu">
+      <div class="submenu-item" (click)="openClearance('TVET Module Completion')">
+        TVET Module Completion
       </div>
-
-      <div class="status-card pending">
-        <span>Hostel</span>
-        <strong>Pending</strong>
+      <div class="submenu-item" (click)="openClearance('Pending Graduation')">
+        Pending Graduation
       </div>
-
-      <div class="status-card not-submitted">
-        <span>Mess</span>
-        <strong>Not Submitted</strong>
-      </div>
-
-      <div class="status-card approved">
-        <span>Library</span>
-        <strong>Approved</strong>
-      </div>
-
-      <div class="status-card denied">
-        <span>Finance</span>
-        <strong>Denied</strong>
-      </div>
-
-      <div class="status-card pending">
-        <span>Registrar</span>
-        <strong>Pending</strong>
+      <div class="submenu-item" (click)="openClearance('Inter-University Transfer')">
+        Inter-University Transfer
       </div>
     </div>
-  </div>
 
+    <div class="sidebar-item">Profile</div>
+    <div class="sidebar-item">Logout</div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="dashboard-content">
+
+    <section *ngIf="activeView === 'dashboard'">
+      <h2>Welcome, Student</h2>
+      <p>Here is an overview of your clearance progress.</p>
+    </section>
+
+    <section *ngIf="activeView === 'clearance'">
+      <app-student-clearance></app-student-clearance>
+    </section>
+
+  </main>
 </div>
