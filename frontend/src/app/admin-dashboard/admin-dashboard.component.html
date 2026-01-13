@@ -1,0 +1,165 @@
+<div class="admin-dashboard">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h2>Admin Dashboard</h2>
+    </div>
+    <div class="navbar-menu">
+      <button (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="tabs">
+      <button
+        [class.active]="activeTab === 'dashboard'"
+        (click)="switchTab('dashboard')"
+        class="tab-btn"
+      >
+        Dashboard
+      </button>
+      <button
+        [class.active]="activeTab === 'users'"
+        (click)="switchTab('users')"
+        class="tab-btn"
+      >
+        Users Management
+      </button>
+      <button
+        [class.active]="activeTab === 'settings'"
+        (click)="switchTab('settings')"
+        class="tab-btn"
+      >
+        System Settings
+      </button>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div *ngIf="activeTab === 'dashboard'" class="tab-content">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon students">👨‍🎓</div>
+          <div class="stat-info">
+            <h3>Total Students</h3>
+            <p class="stat-value">{{ stats.totalStudents }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon staff">👨‍💼</div>
+          <div class="stat-info">
+            <h3>Total Staff</h3>
+            <p class="stat-value">{{ stats.totalStaff }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon pending">⏳</div>
+          <div class="stat-info">
+            <h3>Pending Clearances</h3>
+            <p class="stat-value">{{ stats.pendingClearances }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon completed">✅</div>
+          <div class="stat-info">
+            <h3>Completed Clearances</h3>
+            <p class="stat-value">{{ stats.completedClearances }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2>System Overview</h2>
+        <div class="info-grid">
+          <div class="info-box">
+            <h3>Clearance Completion Rate</h3>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="(stats.completedClearances / (stats.completedClearances + stats.pendingClearances)) * 100"></div>
+            </div>
+            <p>
+              {{ ((stats.completedClearances / (stats.completedClearances + stats.pendingClearances)) * 100) | number: '1.0-0' }}%
+            </p>
+          </div>
+
+          <div class="info-box">
+            <h3>Recent Activity</h3>
+            <p>✅ 12 clearances approved today</p>
+            <p>📝 5 new registrations today</p>
+            <p>⚠️ 3 pending approvals</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Management Tab -->
+    <div *ngIf="activeTab === 'users'" class="tab-content">
+      <div class="users-header">
+        <h2>Users Management</h2>
+        <button class="btn btn-primary">+ Add New User</button>
+      </div>
+
+      <div *ngIf="loading" class="loading">
+        <p>Loading users...</p>
+      </div>
+
+      <div *ngIf="!loading" class="users-list">
+        <table>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Full Name</th>
+              <th>Role</th>
+              <th>Created Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.email }}</td>
+              <td>{{ user.full_name }}</td>
+              <td>
+                <span [class]="'role-badge ' + user.role">
+                  {{ user.role | uppercase }}
+                </span>
+              </td>
+              <td>{{ user.created_at }}</td>
+              <td class="actions">
+                <button (click)="viewUserDetails(user.id)" class="btn btn-info">View</button>
+                <button (click)="deleteUser(user.id)" class="btn btn-danger">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div *ngIf="activeTab === 'settings'" class="tab-content">
+      <div class="settings-section">
+        <h2>System Settings</h2>
+        <div class="settings-group">
+          <label>
+            <input type="checkbox" checked /> Enable Student Registrations
+          </label>
+          <label>
+            <input type="checkbox" checked /> Enable Clearance Submissions
+          </label>
+          <label>
+            <input type="checkbox" checked /> Send Email Notifications
+          </label>
+          <label>
+            <input type="checkbox" /> Require Admin Approval for New Staff
+          </label>
+        </div>
+        <button class="btn btn-primary">Save Settings</button>
+      </div>
+
+      <div class="settings-section">
+        <h2>Backup & Maintenance</h2>
+        <button class="btn btn-warning">Backup Database</button>
+        <button class="btn btn-secondary">View Logs</button>
+      </div>
+    </div>
+  </div>
+</div>

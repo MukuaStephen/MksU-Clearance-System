@@ -1,5 +1,6 @@
 Django==4.2.7
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.5.1
 django-cors-headers==4.3.1
 python-dotenv==1.0.0
 PyMySQL==1.1.0
@@ -17,3 +18,4 @@ flake8==6.1.0
 pytest==7.4.3
 pytest-django==4.7.0
 drf-spectacular==0.26.5
+drf-spectacular[sidecar]==0.26.5

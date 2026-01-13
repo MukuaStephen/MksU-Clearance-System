@@ -1,6 +1,10 @@
 # Machakos University Clearance System
 
-A comprehensive web-based system for automating Machakos University's graduation clearance process. Built with **React.js** (frontend) and **Django REST Framework** (backend), the system streamlines departmental approvals, integrates finance verification with M-PESA, tracks gown issuance, and provides real-time analytics for administrators and students.
+A comprehensive full-stack web application for automating Machakos University's graduation clearance process. The system digitizes the clearance workflow, enabling seamless communication between students, department staff, and administrators.
+
+**Status**: ✅ Production Ready  
+**Tech Stack**: Django 4.2.7 + Angular 21.0.0  
+**Last Updated**: January 13, 2026
 
 ---
 
@@ -9,428 +13,541 @@ A comprehensive web-based system for automating Machakos University's graduation
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [System Architecture](#system-architecture)
-- [Prerequisites](#prerequisites)
+- [Tech Stack](#tech-stack)
+- [Quick Start](#quick-start)
 - [Installation](#installation)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
+- [Test Credentials](#test-credentials)
 - [API Documentation](#api-documentation)
-- [Usage Guide](#usage-guide)
+- [Project Structure](#project-structure)
+- [Features by Role](#features-by-role)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
 ## Overview
 
-The Machakos University Clearance System digitizes and automates the traditionally manual graduation clearance process. Students can submit clearance requests online, track approval progress across multiple departments (Finance, Library, Hostel, Academic, etc.), upload required documents, and receive real-time notifications. Administrators gain powerful analytics and audit trails for compliance and reporting.
+The MksU Clearance System streamlines the graduation clearance process by:
 
-### Problem Statement
-Traditional clearance processes involve:
-- Physical paperwork and manual signatures
-- Long queues and delays
-- Difficulty tracking approval status
-- No centralized record keeping
-- Inefficient communication between departments
+- **Automating workflows**: Digital submission and approval process
+- **Enabling real-time tracking**: Students and staff track progress instantly
+- **Ensuring accountability**: Complete audit trail of all actions
+- **Providing insights**: Analytics for administrators to identify bottlenecks
+- **Reducing manual work**: Minimal paperwork, automated notifications
 
-### Solution
+### Problem Solved
+Traditional clearance involved:
+- ❌ Physical paperwork and manual signatures
+- ❌ Long queues and delays
+- ❌ No centralized tracking
+- ❌ Difficulty accessing approval status
+- ❌ No historical records for audits
+
+### Our Solution
 This system provides:
-- **Digital workflow** for clearance requests and approvals
-- **Real-time tracking** with status updates and notifications
-- **Role-based access** for students, department staff, and administrators
-- **Financial integration** with M-PESA for graduation fee payments
-- **Analytics dashboard** for monitoring bottlenecks and completion rates
-- **Audit logging** for compliance and accountability
+- ✅ Digital workflow automation
+- ✅ Real-time status updates and notifications
+- ✅ Role-based access control (Student, Staff, Admin)
+- ✅ Complete audit logging
+- ✅ Responsive web interface
+- ✅ RESTful API for integration
 
 ---
 
 ## Key Features
 
 ### 👨‍🎓 Student Features
-- **User Registration & Authentication** - JWT-based secure login
-- **Clearance Request Submission** - Submit requests with supporting documents
-- **Real-time Status Tracking** - Monitor approval progress across departments
-- **Document Uploads** - Submit evidence files (fee statements, clearance documents)
-- **Payment Integration** - M-PESA graduation fee payment (KES 10,000)
-- **Gown Issuance Tracking** - Track gown assignment, deposit, and return
-- **Email Notifications** - Automated updates on approval status changes
+- **Unified Login & Registration**: Single entry point for all users
+- **Dashboard**: View clearance status across all departments
+- **Status Tracking**: Real-time visualization of approval progress
+- **Department Cards**: See status per department (Chairperson, Library, Hostel, Finance, etc.)
+- **Responsive Design**: Mobile-friendly interface
 
 ### 🏢 Department Staff Features
-- **Approval Workflow** - Approve/reject clearance requests with notes
-- **Evidence Review** - Review uploaded documents and evidence files
-- **Departmental Dashboard** - View pending approvals and statistics
-- **Notes & Rejection Reasons** - Document decisions with detailed feedback
+- **Staff Dashboard**: View pending clearance approvals
+- **Approval Management**: Approve or reject clearance requests
+- **Feedback System**: Add comments and rejection reasons
+- **Filtering**: Filter by status (all, approved, pending, rejected)
+- **Quick Actions**: Fast approval/rejection workflow
 
 ### 🔐 Administrator Features
-- **User Management** - Create and manage users (students, staff, admins)
-- **Academic Structure** - Manage schools, departments, and courses
-- **Department Configuration** - Set approval order and active status
-- **Finance Management** - Verify payments and graduation fees
-- **Gown Issuance Management** - Track gown assignments, returns, deposits, refunds
-- **Analytics & Reporting**:
-  - Clearance completion rates by cohort/school
-  - Department bottleneck analysis
-  - Financial summaries and payment compliance
-  - Overall system dashboard with key metrics
-- **Audit Logs** - Complete audit trail of all system actions
-- **Notification Management** - Send bulk notifications to students
+- **Admin Dashboard**: System-wide statistics and monitoring
+- **User Management**: View and manage all users
+- **User Deletion**: Remove users from system
+- **System Statistics**: Total users, clearances, and approvals count
+- **Responsive Controls**: Delete users with confirmation dialogs
 
-### 🔧 System Features
-- **Academic Hierarchy** - Normalized School → AcademicDepartment → Course structure
-- **Registration Number Parsing** - Auto-extract admission year from format `SCHOOL/DEPT/NNNN/YYYY`
-- **File Upload Validation** - Size limits and format validation (max 5MB for evidence)
-- **Graduation Fee Rule** - Enforced KES 10,000 graduation fee at model and API level
-- **Multi-tenancy Support** - Filter data by school, department, cohort
-- **RESTful API** - Comprehensive API with OpenAPI documentation
-- **Responsive Design** - Mobile-friendly interface
+### 🔧 Core Features
+- **Unified Authentication**: Single login for all three roles
+- **Role-Based Routing**: Automatic routing to correct dashboard based on role
+- **JWT Token Management**: Secure token-based authentication
+- **CORS Enabled**: Frontend and backend communication
+- **Token Storage**: Secure localStorage for session management
 
 ---
 
 ## System Architecture
 
-### Backend Stack
-- **Framework**: Django 4.2.7 + Django REST Framework 3.14
-- **Database**: MySQL 8.0+
-- **Authentication**: JWT (SimpleJWT)
-- **API Documentation**: drf-spectacular (OpenAPI 3.0)
-- **Task Queue**: Celery (for background jobs)
-- **Cache**: Redis
-- **Email**: SMTP (configurable backend)
-
-### Frontend Stack
-- **Framework**: React.js 18+
-- **Build Tool**: Vite
-- **State Management**: React Context/Hooks
-- **Routing**: React Router
-- **HTTP Client**: Axios
-- **Styling**: CSS Modules / Tailwind (if configured)
-
-### Key Components
 ```
 MksU-Clearance-System/
 ├── BACKEND/
 │   ├── apps/
-│   │   ├── users/           # Authentication & user management
-│   │   ├── students/        # Student profiles
-│   │   ├── departments/     # Clearance departments
-│   │   ├── academics/       # Schools, departments, courses
-│   │   ├── clearances/      # Clearance requests
-│   │   ├── approvals/       # Department approvals
-│   │   ├── finance/         # Payments & finance records
-│   │   ├── gown_issuance/   # Gown tracking
-│   │   ├── notifications/   # Email notifications
-│   │   ├── audit_logs/      # Audit trail
-│   │   └── analytics/       # Dashboards & reports
-│   ├── config/              # Django settings & URLs
-│   ├── media/               # Uploaded files
-│   └── requirements.txt     # Python dependencies
+│   │   ├── users/              # Authentication & user management
+│   │   ├── students/           # Student profiles & data
+│   │   ├── departments/        # Department management
+│   │   ├── clearances/         # Clearance requests
+│   │   ├── approvals/          # Department approvals
+│   │   ├── finance/            # Payment & finance tracking
+│   │   ├── notifications/      # Email & in-app notifications
+│   │   ├── audit_logs/         # Audit trail middleware
+│   │   ├── gown_issuance/      # Gown tracking
+│   │   ├── analytics/          # Statistics & reports
+│   │   └── academics/          # Academic structure
+│   ├── config/                 # Django settings & URL routing
+│   ├── scripts/                # Utility scripts
+│   ├── db.sqlite3              # SQLite database (development)
+│   ├── create_test_users.py    # Test user creation script
+│   └── requirements.txt        # Python dependencies
+│
 └── FRONTEND/
-    ├── src/
-    │   ├── components/      # React components
-    │   ├── pages/           # Page components
-    │   └── App.jsx          # Main app component
-    ├── package.json         # Node dependencies
-    └── vite.config.js       # Vite configuration
+    ├── src/app/
+    │   ├── services/           # API service & authentication
+    │   ├── student-login/      # Unified login component
+    │   ├── student-dashboard/  # Student portal
+    │   ├── staff-dashboard/    # Staff portal
+    │   ├── admin-dashboard/    # Admin portal
+    │   ├── app.routes.ts       # Route definitions
+    │   ├── app.config.ts       # App configuration
+    │   └── app.component.ts    # Root component
+    ├── package.json            # Node dependencies
+    ├── angular.json            # Angular configuration
+    └── tsconfig.json           # TypeScript configuration
 ```
 
 ---
 
-## Prerequisites
+## Tech Stack
 
-### Required Software
-- **Python**: 3.10 or higher
-- **Node.js**: 18.x or higher
-- **MySQL**: 8.0 or higher
-- **Git**: Latest version
+### Backend
+- **Language**: Python 3.10+
+- **Framework**: Django 4.2.7
+- **REST API**: Django REST Framework 3.14.0
+- **Authentication**: djangorestframework-simplejwt 5.5.1
+- **Database**: SQLite (dev), MySQL 8.0+ (production)
+- **ORM**: Django ORM
+- **CORS**: django-cors-headers
+- **Caching**: In-memory (dev), Redis (production)
 
-### Optional (Recommended)
-- **Redis**: 6.x or higher (for caching and Celery)
-- **Postman**: For API testing
+### Frontend
+- **Framework**: Angular 21.0.0
+- **Language**: TypeScript
+- **HTTP Client**: Angular HttpClient
+- **Routing**: Angular Router
+- **Styling**: CSS (custom)
+- **Build Tool**: Angular CLI
 
-### System Requirements
-- **OS**: Windows 10/11, macOS, or Linux
-- **RAM**: 4GB minimum, 8GB recommended
-- **Storage**: 2GB free space
+---
+
+## Quick Start
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18.x+
+- Git
+
+### Backend Quick Start
+```bash
+# 1. Navigate to backend
+cd BACKEND
+
+# 2. Create and activate Python virtual environment
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Mac/Linux
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Run migrations
+python manage.py migrate
+
+# 5. Create test users
+python create_test_users.py
+
+# 6. Start server
+python manage.py runserver 8000
+```
+
+Backend available at: **http://127.0.0.1:8000**
+
+### Frontend Quick Start
+```bash
+# 1. Navigate to frontend
+cd FRONTEND
+
+# 2. Install dependencies
+npm install
+
+# 3. Start development server
+npm start
+```
+
+Frontend available at: **http://localhost:4200**
 
 ---
 
 ## Installation
 
-### Backend Setup
+### Detailed Backend Setup
 
-#### 1. Clone the Repository
+#### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/MksU-Clearance-System.git
+git clone https://github.com/MukuaStephen/MksU-Clearance-System.git
 cd MksU-Clearance-System
 ```
 
 #### 2. Create Virtual Environment
 ```bash
-# Windows
-python -m venv .venv
-.venv\Scripts\activate
-
-# macOS/Linux
-python3 -m venv .venv
-source .venv/bin/activate
+cd BACKEND
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Mac/Linux
 ```
 
-#### 3. Install Python Dependencies
+#### 3. Install Dependencies
 ```bash
-cd BACKEND
 pip install -r requirements.txt
 ```
 
-#### 4. Configure MySQL Database
-```bash
-# Login to MySQL as root
-mysql -u root -p
-
-# Create database and user
-CREATE DATABASE mksu_clearance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'mksu_app'@'localhost' IDENTIFIED BY 'your_secure_password';
-GRANT ALL PRIVILEGES ON mksu_clearance.* TO 'mksu_app'@'localhost';
-FLUSH PRIVILEGES;
-EXIT;
-```
-
-#### 5. Configure Environment Variables
-Create a `.env` file in the `BACKEND` directory:
-
-```env
-# Django Settings
-SECRET_KEY=your-secret-key-here-change-in-production
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# Database
-DB_NAME=mksu_clearance
-DB_USER=mksu_app
-DB_PASSWORD=your_secure_password
-DB_HOST=127.0.0.1
-DB_PORT=3306
-
-# JWT
-JWT_SECRET=your-jwt-secret-key
-JWT_ALGORITHM=HS256
-JWT_EXPIRATION=604800
-
-# Email (for notifications)
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-EMAIL_USE_TLS=True
-
-# Redis (optional - for production)
-REDIS_URL=redis://localhost:6379/0
-
-# M-PESA (for production)
-MPESA_ENVIRONMENT=sandbox
-MPESA_CONSUMER_KEY=your_consumer_key
-MPESA_CONSUMER_SECRET=your_consumer_secret
-MPESA_SHORTCODE=174379
-MPESA_PASSKEY=your_passkey
-MPESA_CALLBACK_URL=https://yourdomain.com/api/finance/mpesa_callback/
-
-# Frontend URL
-FRONTEND_URL=http://localhost:5173
-```
-
-#### 6. Run Database Migrations
+#### 4. Database Setup (SQLite - Development)
 ```bash
 python manage.py migrate
 ```
 
-#### 7. Seed Initial Data
+#### 5. Create Test Users
 ```bash
-# Create departments
-python manage.py seed_departments
-
-# Create superuser (admin)
-python manage.py create_superuser_auto
-# Or manually:
-# python manage.py createsuperuser
+python create_test_users.py
 ```
 
-#### 8. Verify Setup
-```bash
-python manage.py check
-```
+This creates:
+- Admin: admin@mksu.ac.ke / admin123
+- Staff: staff@mksu.ac.ke / staff123
+- Student: student@example.com / password123
 
----
+### Detailed Frontend Setup
 
-### Frontend Setup
-
-#### 1. Navigate to Frontend Directory
+#### 1. Navigate to Frontend
 ```bash
 cd ../FRONTEND
 ```
 
-#### 2. Install Node Dependencies
+#### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-#### 3. Configure Environment Variables
-Create a `.env` file in the `FRONTEND` directory:
-
-```env
-VITE_API_BASE_URL=http://localhost:8000/api
+#### 3. Start Development Server
+```bash
+npm start
 ```
+
+The app will automatically open at **http://localhost:4200**
 
 ---
 
 ## Configuration
 
-### Django Admin Configuration
-The Django admin panel provides a powerful interface for managing system data:
-- **URL**: http://localhost:8000/admin/
-- **Default credentials**: 
-  - Email: `admin@mksu.ac.ke`
-  - Password: `admin123456` (change immediately in production)
+### Backend Configuration (`BACKEND/config/settings.py`)
 
-### Cache Configuration (Optional)
-For production, configure Redis caching in `config/settings.py`:
-
+**Database (SQLite)**
 ```python
-CACHES = {
+DATABASES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/0',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.getenv('SQLITE_DB_PATH', 'db.sqlite3'),
     }
 }
 ```
 
-For development without Redis, use local memory cache:
-
+**CORS Configuration**
 ```python
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
+    'http://localhost:5173',
+    'https://clearance.mksu.ac.ke',
+]
+CORS_ALLOW_CREDENTIALS = True
+```
+
+**JWT Configuration**
+```python
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ALGORITHM': 'HS256',
 }
+```
+
+### Frontend Configuration (`FRONTEND/src/app/services/api.service.ts`)
+
+```typescript
+private baseUrl = 'http://localhost:8000/api';
 ```
 
 ---
 
 ## Running the Application
 
-### Start Backend Server
+### Method 1: Two Terminal Windows (Recommended)
+
+**Terminal 1 - Backend**
 ```bash
 cd BACKEND
-python manage.py runserver
+venv\Scripts\activate
+python manage.py runserver 8000
 ```
-Backend will be available at: http://localhost:8000
 
-### Start Frontend Development Server
+**Terminal 2 - Frontend**
 ```bash
 cd FRONTEND
-npm run dev
+npm start
 ```
-Frontend will be available at: http://localhost:5173
 
-### Access API Documentation
-- **Swagger UI**: http://localhost:8000/api/docs/
-- **ReDoc**: http://localhost:8000/api/redoc/
-- **OpenAPI Schema**: http://localhost:8000/api/schema/
+### Method 2: Using Scripts (Windows)
+
+Create `run_servers.bat` in project root:
+```batch
+@echo off
+start cmd /k "cd BACKEND && venv\Scripts\activate && python manage.py runserver 8000"
+start cmd /k "cd FRONTEND && npm start"
+pause
+```
+
+Then run: `run_servers.bat`
+
+---
+
+## Test Credentials
+
+### 🔐 Login URL
+**http://localhost:4200/login**
+
+All users login through the same unified login page.
+
+### Admin Account
+```
+Email:    admin@mksu.ac.ke
+Password: admin123
+Role:     Administrator
+Destination: /admin/dashboard
+```
+
+### Staff Account
+```
+Email:    staff@mksu.ac.ke
+Password: staff123
+Role:     Department Staff
+Destination: /staff/dashboard
+```
+
+### Student Account
+```
+Email:    student@example.com
+Password: password123
+Role:     Student
+Destination: /dashboard
+```
+
+### Create Additional Users
+
+**Via Python Script:**
+```bash
+python manage.py shell
+```
+
+```python
+from apps.users.models import User
+
+# Create new student
+user = User.objects.create_user(
+    username='newstudent@example.com',
+    email='newstudent@example.com',
+    password='password123',
+    first_name='John',
+    last_name='Doe',
+    role='student'
+)
+user.set_password('password123')
+user.save()
+print('User created successfully')
+```
 
 ---
 
 ## API Documentation
 
+### Base URL
+```
+http://localhost:8000/api
+```
+
 ### Authentication
-All API endpoints (except auth) require JWT authentication:
-
-```bash
-# Login
-POST /api/auth/login/
-Body: { "email": "user@example.com", "password": "password" }
-Response: { "access": "token", "refresh": "token" }
-
-# Use token in headers
-Authorization: Bearer <access_token>
+All endpoints (except login/register) require a Bearer token:
+```
+Authorization: Bearer <your_access_token>
 ```
 
 ### Key Endpoints
 
+#### Authentication
+- `POST /auth/login/` - User login
+- `POST /auth/register/` - User registration
+- `POST /auth/logout/` - User logout
+- `POST /auth/token/refresh/` - Refresh JWT token
+- `GET /auth/profile/` - Get current user profile
+
+#### Users
+- `GET /users/` - List all users (admin only)
+- `GET /users/{id}/` - Get user details
+- `DELETE /users/{id}/` - Delete user (admin only)
+
 #### Students
-- `GET /api/students/` - List all students
-- `POST /api/students/` - Create student (admin only)
-- `GET /api/students/{id}/` - Student details
-- `GET /api/students/me/` - Current student's profile
-- `GET /api/students/eligible/` - Eligible students
+- `GET /students/` - List all students
+- `GET /students/{id}/` - Get student profile
+- `POST /students/` - Create student (admin only)
 
 #### Clearances
-- `GET /api/clearances/` - List clearance requests
-- `POST /api/clearances/` - Submit clearance request
-- `GET /api/clearances/{id}/` - Clearance details
-- `POST /api/clearances/{id}/submit/` - Submit request
+- `GET /clearances/` - List clearances
+- `POST /clearances/` - Create clearance request
+- `GET /clearances/{id}/` - Get clearance details
+- `PUT /clearances/{id}/` - Update clearance
 
-#### Approvals
-- `GET /api/approvals/` - List approvals
-- `POST /api/approvals/{id}/process/` - Approve/reject clearance
+#### Approvals (Staff)
+- `GET /approvals/` - List pending approvals
+- `POST /approvals/{id}/approve/` - Approve clearance
+- `POST /approvals/{id}/reject/` - Reject clearance
 
-#### Finance
-- `GET /api/finance/payments/` - List payments
-- `POST /api/finance/payments/` - Record payment
-- `POST /api/finance/payments/{id}/verify/` - Verify payment
-
-#### Gown Issuance
-- `GET /api/gown-issuances/` - List gown issuances
-- `POST /api/gown-issuances/` - Issue gown
-- `POST /api/gown-issuances/{id}/mark_returned/` - Mark returned
-- `GET /api/gown-issuances/overdue/` - Overdue returns
-- `GET /api/gown-issuances/statistics/` - Statistics
-
-#### Analytics
-- `GET /api/analytics/dashboard/` - Overall dashboard
-- `GET /api/analytics/clearance-completion/` - Completion rates
-- `GET /api/analytics/department-bottlenecks/` - Bottleneck analysis
-- `GET /api/analytics/financial-summary/` - Financial reports
-
-#### Academics
-- `GET /api/academics/schools/` - List schools
-- `GET /api/academics/departments/` - List academic departments
-- `GET /api/academics/courses/` - List courses
-
-For complete API documentation with request/response examples, visit the Swagger UI at http://localhost:8000/api/docs/
+### Full API Documentation
+Available at: **http://localhost:8000/api/docs/** (Swagger UI)
 
 ---
 
-## Usage Guide
+## Project Structure
 
-### For Students
+### Backend Components
 
-1. **Register/Login**: Create account or login with credentials
-2. **Complete Profile**: Ensure registration number follows format `SCHOOL/DEPT/NNNN/YYYY`
-3. **Submit Clearance**: Navigate to clearance page and submit request
-4. **Upload Documents**: Attach required evidence files (max 5MB)
-5. **Pay Graduation Fee**: Pay exactly KES 10,000 via M-PESA
-6. **Track Progress**: Monitor approval status across departments
-7. **Collect Gown**: Once approved, proceed to gown issuance
+**Users App** - Authentication & user management
+```
+apps/users/
+├── models.py          # User model with role-based access
+├── views.py           # Login, register, logout endpoints
+├── serializers.py     # User data serialization
+├── urls.py            # Auth routes
+└── migrations/
+```
 
-### For Department Staff
+**Students App** - Student profiles
+```
+apps/students/
+├── models.py          # Student model
+├── views.py           # Student endpoints
+├── serializers.py     # Student serialization
+└── urls.py
+```
 
-1. **Login**: Use department staff credentials
-2. **View Pending**: Access department dashboard for pending approvals
-3. **Review Requests**: Check student details and uploaded evidence
-4. **Approve/Reject**: Make decision with notes or rejection reason
-5. **Upload Evidence**: Attach department-specific documents if needed
+**Clearances App** - Clearance request management
+```
+apps/clearances/
+├── models.py          # Clearance request model
+├── views.py           # Clearance endpoints
+├── serializers.py     # Clearance serialization
+└── urls.py
+```
 
-### For Administrators
+**Approvals App** - Department approval workflow
+```
+apps/approvals/
+├── models.py          # Approval model
+├── views.py           # Approval endpoints
+├── serializers.py     # Approval serialization
+└── urls.py
+```
 
-1. **Login to Admin Panel**: http://localhost:8000/admin/
-2. **Manage Users**: Create students, staff, and admin accounts
-3. **Configure Departments**: Set approval order and active status
-4. **Manage Academic Structure**: Add schools, departments, courses
-5. **Verify Payments**: Review and verify student payments
-6. **Track Gown Issuance**: Manage gown assignments and returns
-7. **View Analytics**: Access dashboards for system insights
-8. **Review Audit Logs**: Monitor system activity and compliance
+### Frontend Components
+
+**Login Component** - Unified authentication
+```
+student-login/
+├── student-login.component.ts      # Login logic, role-based routing
+├── student-login.component.html    # Login form
+└── student-login.component.css     # Login styling
+```
+
+**Student Dashboard** - Student portal
+```
+student-dashboard/
+├── student-dashboard.component.ts  # Dashboard logic
+├── student-dashboard.component.html # Dashboard UI
+└── student-dashboard.component.css  # Dashboard styling
+```
+
+**Staff Dashboard** - Staff portal
+```
+staff-dashboard/
+├── staff-dashboard.component.ts    # Approval management logic
+├── staff-dashboard.component.html  # Approval UI
+└── staff-dashboard.component.css   # Approval styling
+```
+
+**Admin Dashboard** - Admin portal
+```
+admin-dashboard/
+├── admin-dashboard.component.ts    # User management logic
+├── admin-dashboard.component.html  # Admin UI
+└── admin-dashboard.component.css   # Admin styling
+```
+
+**API Service** - Backend communication
+```
+services/
+├── api.service.ts    # All API endpoints
+├── auth.service.ts   # Authentication logic
+```
+
+---
+
+## Features by Role
+
+### 🎓 Student Portal (`/dashboard`)
+| Feature | Status |
+|---------|--------|
+| View clearance status | ✅ Active |
+| See department progress | ✅ Active |
+| View approval/pending/denied status | ✅ Active |
+| Visual dashboard with cards | ✅ Active |
+| Logout functionality | ✅ Active |
+
+### 👔 Staff Portal (`/staff/dashboard`)
+| Feature | Status |
+|---------|--------|
+| View pending clearances | ✅ Active |
+| Approve clearances | ✅ Active |
+| Reject clearances | ✅ Active |
+| Filter by status | ✅ Active |
+| Add feedback/comments | ✅ Active |
+| Logout functionality | ✅ Active |
+
+### 🔑 Admin Portal (`/admin/dashboard`)
+| Feature | Status |
+|---------|--------|
+| View system statistics | ✅ Active |
+| List all users | ✅ Active |
+| Delete users | ✅ Active |
+| View user details | ✅ Active |
+| System monitoring | ✅ Active |
+| Logout functionality | ✅ Active |
 
 ---
 
@@ -438,154 +555,182 @@ For complete API documentation with request/response examples, visit the Swagger
 
 ### Backend Issues
 
-#### Database Connection Error
-```
-Error: django.db.utils.OperationalError: (2003, "Can't connect to MySQL server")
-```
+#### 1. "Cannot connect to server" error
+**Symptom**: Login button shows error message  
 **Solution**:
-1. Ensure MySQL server is running: `mysql --version`
-2. Verify database credentials in `.env` file
-3. Check database exists: `SHOW DATABASES;` in MySQL
-4. Ensure user has proper permissions
+1. Verify backend is running: `python manage.py runserver 8000`
+2. Check CORS settings allow `http://localhost:4200`
+3. Ensure both servers are running
 
-#### Migration Errors
-```
-Error: No migrations to apply
-```
+#### 2. "Unable to log in with provided credentials"
+**Symptom**: Correct credentials are rejected  
 **Solution**:
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+# Recreate test users
+python create_test_users.py
+
+# Or verify user exists:
+python manage.py shell
+from apps.users.models import User
+User.objects.filter(email='admin@mksu.ac.ke').exists()
 ```
 
-#### Redis Connection Error (Throttling)
-```
-Error: ConnectionRefusedError: [Errno 111] Connection refused
-```
+#### 3. Database migration errors
+**Symptom**: `django.db.utils.OperationalError`  
 **Solution**:
-- **Option 1**: Install and start Redis server
-- **Option 2**: Switch to local memory cache in `settings.py`:
+```bash
+python manage.py migrate --run-syncdb
+```
+
+#### 4. Redis/Cache errors
+**Symptom**: `ConnectionRefusedError` when throttling  
+**Solution**: Backend uses in-memory cache for development. No action needed.
+
+### Frontend Issues
+
+#### 1. "Cannot find module" errors
+**Symptom**: Compilation errors in console  
+**Solution**:
+```bash
+cd FRONTEND
+rm -r node_modules package-lock.json
+npm install
+npm start
+```
+
+#### 2. Blank page after login
+**Symptom**: Page doesn't load after successful authentication  
+**Solution**:
+1. Check DevTools Console (F12) for errors
+2. Verify token in localStorage: DevTools → Application → Local Storage
+3. Hard refresh: Ctrl+Shift+R (or Cmd+Shift+R on Mac)
+
+#### 3. Routes not working
+**Symptom**: "Cannot GET /dashboard"  
+**Solution**: Ensure you're accessing the app at `http://localhost:4200`, not through direct URL navigation
+
+#### 4. CORS errors
+**Symptom**: `No 'Access-Control-Allow-Origin' header`  
+**Solution**:
+1. Check `BACKEND/config/settings.py` CORS settings
+2. Ensure `http://localhost:4200` is in `CORS_ALLOWED_ORIGINS`
+3. Restart backend after changes
+
+### Database Issues
+
+#### Reset Database
+```bash
+# Delete database
+rm BACKEND/db.sqlite3
+
+# Recreate
+python BACKEND/manage.py migrate
+
+# Create test users
+python BACKEND/create_test_users.py
+```
+
+---
+
+## Development Workflow
+
+### Adding a New Feature
+
+1. **Backend** - Create endpoint in app views
+2. **Backend** - Add serializers for data validation
+3. **Backend** - Register routes in urls.py
+4. **Frontend** - Add API method in api.service.ts
+5. **Frontend** - Create component for UI
+6. **Frontend** - Add route in app.routes.ts
+7. **Test** - Verify in browser and Postman
+
+### Code Standards
+- **Python**: PEP 8 (4-space indentation)
+- **TypeScript**: Angular style guide
+- **Git**: Meaningful commit messages
+
+---
+
+## Deployment (Production)
+
+### Backend Deployment
+
+1. **Update Settings**:
 ```python
-CACHES = {
+DEBUG = False
+ALLOWED_HOSTS = ['yourdomain.com']
+```
+
+2. **Use Production Database** (MySQL):
+```python
+DATABASES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mksu_clearance_prod',
+        'USER': 'mksu_app',
+        'PASSWORD': 'strong_password',
+        'HOST': 'prod-db-server',
+        'PORT': '3306',
     }
 }
 ```
 
-#### Import Errors
-```
-Error: ModuleNotFoundError: No module named 'rest_framework'
-```
-**Solution**:
+3. **Collect Static Files**:
 ```bash
-pip install -r requirements.txt
+python manage.py collectstatic
 ```
 
-### Frontend Issues
-
-#### Module Not Found
-```
-Error: Cannot find module 'axios'
-```
-**Solution**:
+4. **Run with Production Server** (Gunicorn):
 ```bash
-npm install
+pip install gunicorn
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4
 ```
 
-#### CORS Errors
-```
-Error: Access to XMLHttpRequest blocked by CORS policy
-```
-**Solution**:
-- Ensure backend `CORS_ALLOWED_ORIGINS` includes frontend URL in `settings.py`
-- Update `.env` with correct `FRONTEND_URL`
+### Frontend Deployment
 
-#### Port Already in Use
-```
-Error: Port 5173 is already in use
-```
-**Solution**:
+1. **Build for Production**:
 ```bash
-# Use different port
-npm run dev -- --port 3000
-
-# Or kill process using the port (Windows)
-netstat -ano | findstr :5173
-taskkill /PID <pid> /F
+npm run build
 ```
 
-### General Issues
-
-#### File Upload Fails
+2. **Deploy to Web Server** (Nginx example):
+```nginx
+server {
+    listen 80;
+    server_name clearance.mksu.ac.ke;
+    
+    location / {
+        root /var/www/html/mksu-clearance;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+}
 ```
-Error: File size exceeds maximum allowed size
-```
-**Solution**:
-- Evidence files: Maximum 5MB
-- Fee statements: Maximum 5MB
-- Check file format is supported
-
-#### Registration Number Validation
-```
-Error: Registration number must follow format SCHOOL/DEPT/NNNN/YYYY
-```
-**Solution**:
-- Ensure format: `SCE/CS/0001/2024`
-- School and department codes must be uppercase
-- Sequence must be 4 digits
-- Year must be 4 digits
-
-#### Payment Amount Validation
-```
-Error: Payment amount must be exactly KES 10,000
-```
-**Solution**:
-- Graduation fee is fixed at KES 10,000.00
-- Do not modify the amount in the payment form
-
----
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Development Guidelines
-- Follow PEP 8 style guide for Python code
-- Use ESLint/Prettier for JavaScript code formatting
-- Write unit tests for new features
-- Update API documentation when adding endpoints
-- Maintain backward compatibility
-
----
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## Support
 
 For issues, questions, or contributions:
-- **Issues**: https://github.com/yourusername/MksU-Clearance-System/issues
-- **Email**: support@mksu.ac.ke
-- **Documentation**: http://localhost:8000/api/docs/
+1. Check Troubleshooting section
+2. Review existing GitHub issues
+3. Contact development team
 
 ---
 
-## Acknowledgments
+## Project Metadata
 
-- Machakos University ICT Department
-- All contributors and testers
-- Django and React communities
+| Property | Value |
+|----------|-------|
+| **Repository** | [MksU-Clearance-System](https://github.com/MukuaStephen/MksU-Clearance-System) |
+| **Status** | ✅ Production Ready |
+| **Backend Port** | 8000 |
+| **Frontend Port** | 4200 |
+| **Database** | SQLite (dev), MySQL (production) |
+| **Python** | 3.10+ |
+| **Node** | 18.x+ |
+| **Last Updated** | January 13, 2026 |
 
 ---
 
-**Built with ❤️ for Machakos University**
+**Happy Clearing! 🎓**

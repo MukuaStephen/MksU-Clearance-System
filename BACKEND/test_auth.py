@@ -20,7 +20,7 @@ def print_response(title, response):
 
 def test_health_check():
     """Test health check endpoint"""
-    response = requests.get(f'{BASE_URL}/users/health/')
+    response = requests.get(f'{BASE_URL}/health/')
     print_response("1. Health Check", response)
     return response.status_code == 200
 

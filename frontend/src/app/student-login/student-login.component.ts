@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-student-login',
@@ -12,20 +14,13 @@ import { Router } from '@angular/router';
 })
 export class StudentLoginComponent {
 
-  email: string = '';
-  password: string = '';
-  errorMessage: string = '';
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private apiService: ApiService
+  ) {}
 
-  constructor(private router: Router) {}
-
-  login(): void {
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Please enter email and password.';
-      return;
-    }
-
-    // FRONTEND-ONLY LOGIN (simulation)
-    this.errorMessage = '';
+  login() {
     this.router.navigate(['/dashboard']);
   }
 }
