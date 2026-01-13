@@ -1,12 +1,14 @@
-/* ========== SIDEBAR LAYOUT ========== */
+/* ================= LAYOUT ================= */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+/* ================= SIDEBAR ================= */
 .sidebar {
   width: 300px;
-  height: 100vh;
-  background: linear-gradient(
-    180deg,
-    #0b1c2d,   /* dark navy blue */
-    #102a43
-  );
+  background: linear-gradient(180deg, #0b1c2d, #102a43);
   color: #f9fafb;
   display: flex;
   flex-direction: column;
@@ -14,7 +16,7 @@
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
 
-/* ========== HEADER ========== */
+/* HEADER */
 .sidebar-header {
   text-align: center;
   margin-bottom: 40px;
@@ -23,7 +25,7 @@
 .avatar {
   width: 80px;
   height: 80px;
-  background: #d4af37; /* GOLD */
+  background: #d4af37;
   color: #0b1c2d;
   border-radius: 50%;
   margin: 0 auto 12px;
@@ -45,21 +47,18 @@
   color: #cbd5e1;
 }
 
-/* ========== NAVIGATION AREA ========== */
+/* NAVIGATION */
 .sidebar-navigation {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 26px;
 }
 
-/* ========== NAV BUTTONS ========== */
+/* NAV CARDS */
 .nav-card {
-  width: 100%;
-  text-align: left;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(212, 175, 55, 0.3); /* gold border */
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 16px;
   padding: 22px;
   cursor: pointer;
@@ -70,37 +69,69 @@
 .nav-card h4 {
   margin: 0 0 6px;
   font-size: 18px;
-  color: #d4af37; /* GOLD text */
+  color: #d4af37;
 }
 
-.nav-card p {
-  margin: 0;
-  font-size: 14px;
-  color: #e5e7eb;
-}
-
-/* Hover effect */
 .nav-card:hover {
   background: rgba(212, 175, 55, 0.15);
-  transform: translateX(8px);
-  border-color: #d4af37;
+  transform: translateX(6px);
 }
 
-/* ========== FOOTER / LOGOUT ========== */
-.sidebar-footer {
-  margin-top: auto;
-}
-
+/* LOGOUT */
 .logout-card {
   background: rgba(180, 38, 38, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.logout-card h4 {
-  color: #fff;
 }
 
 .logout-card:hover {
   background: rgba(150, 20, 20, 1);
-  transform: translateX(6px);
+}
+
+/* ================= CONTENT ================= */
+.dashboard-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+/* TABLE */
+.status-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.status-table th,
+.status-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* PROFILE */
+.profile-box {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+/* PASSWORD */
+.password-form {
+  margin-top: 20px;
+  max-width: 400px;
+}
+
+.password-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.password-form button {
+  padding: 10px;
+  background: #0b1c2d;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

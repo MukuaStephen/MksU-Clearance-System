@@ -20,13 +20,15 @@ import { ApiService } from '../services/api.service';
 })
 export class StudentDashboardComponent implements OnInit {
 
+  // controls content area
   activeView: 'dashboard' | 'clearance' | 'profile' = 'dashboard';
 
-  oldPassword: string = '';
-  newPassword: string = '';
-  passwordMessage: string = '';
-  userEmail: string = '';
-  userName: string = '';
+  // profile/password
+  oldPassword = '';
+  newPassword = '';
+  passwordMessage = '';
+  userEmail = '';
+  userName = '';
 
   constructor(
     public clearanceService: ClearanceService,
@@ -57,6 +59,7 @@ export class StudentDashboardComponent implements OnInit {
     );
   }
 
+  // ===== SIDEBAR ACTIONS =====
   showDashboard(): void {
     this.activeView = 'dashboard';
   }
