@@ -4,63 +4,29 @@
   <div class="bg-slide slide-1"></div>
   <div class="bg-slide slide-2"></div>
 
-  <!-- LOGIN CONTAINER -->
+  <!-- LOGIN CARD -->
   <div class="login-container">
 
-    <!-- SCHOOL LOGO -->
+    <!-- LOGO -->
     <div class="logo-section">
       <img src="/machakos-university-logo.png" alt="Machakos University">
     </div>
 
-    <!-- LOGIN FORM -->
-    <h2>Student Login</h2>
+    <!-- TITLE -->
+    <h2>{{ isRegisterMode ? 'Student Registration' : 'Student Login' }}</h2>
     <p class="subtitle">
-      Sign in to access the Student Clearance System
+      {{ isRegisterMode
+        ? 'Create your student account'
+        : 'Sign in to access the Student Clearance System' }}
     </p>
 
-    <div class="form-group">
-      <label>Student Email</label>
-      <input
-        type="email"
-        [(ngModel)]="email"
-        placeholder="student@mksu.ac.ke"
-      >
-    </div>
+    <!-- LOGIN FORM -->
+    <form *ngIf="!isRegisterMode" (ngSubmit)="login()">
 
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="Enter your password"
-      >
-    </div>
-
-    <button class="login-btn" (click)="login()">
-      Login
-    </button>
-
-    <p class="error" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </p>
-
-  </div>
-
-<div class="login-container">
-  <div class="login-box">
-    <div class="login-header">
-      <h1>MksU Clearance System</h1>
-      <p>{{ isRegisterMode ? 'Student Registration' : 'Login to Your Account' }}</p>
-      <p class="subtitle">{{ isRegisterMode ? 'Create your student account' : 'Automatic role-based access for Students, Staff, and Admins' }}</p>
-    </div>
-
-    <!-- Login Form -->
-    <form *ngIf="!isRegisterMode" (ngSubmit)="login()" class="login-form">
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label>Email Address</label>
         <input
           type="email"
-          id="email"
           [(ngModel)]="email"
           name="email"
           placeholder="student@mksu.ac.ke"
@@ -69,10 +35,9 @@
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label>Password</label>
         <input
           type="password"
-          id="password"
           [(ngModel)]="password"
           name="password"
           placeholder="Enter your password"
@@ -80,96 +45,85 @@
         />
       </div>
 
-      <div *ngIf="error" class="error-message">
-        {{ error }}
-      </div>
+      <p class="error" *ngIf="error">{{ error }}</p>
 
-      <button type="submit" [disabled]="loading" class="login-btn">
+      <button class="login-btn" type="submit" [disabled]="loading">
         {{ loading ? 'Logging in...' : 'Login' }}
       </button>
     </form>
 
-    <!-- Registration Form -->
-    <form *ngIf="isRegisterMode" (ngSubmit)="register()" class="login-form">
+    <!-- REGISTRATION FORM -->
+    <form *ngIf="isRegisterMode" (ngSubmit)="register()">
+
       <div class="form-group">
-        <label for="fullName">Full Name</label>
+        <label>Full Name</label>
         <input
           type="text"
-          id="fullName"
           [(ngModel)]="fullName"
           name="fullName"
-          placeholder="Your full name"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="admissionNumber">Admission Number</label>
+        <label>Admission Number</label>
         <input
           type="text"
-          id="admissionNumber"
           [(ngModel)]="admissionNumber"
           name="admissionNumber"
-          placeholder="e.g., SCE/CS/0001/2024"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label>Email Address</label>
         <input
           type="email"
-          id="email"
           [(ngModel)]="email"
           name="email"
-          placeholder="student@mksu.ac.ke"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label>Password</label>
         <input
           type="password"
-          id="password"
           [(ngModel)]="password"
           name="password"
-          placeholder="Enter your password"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="passwordConfirm">Confirm Password</label>
+        <label>Confirm Password</label>
         <input
           type="password"
-          id="passwordConfirm"
           [(ngModel)]="passwordConfirm"
           name="passwordConfirm"
-          placeholder="Confirm your password"
           required
         />
       </div>
 
-      <div *ngIf="error" class="error-message">
-        {{ error }}
-      </div>
+      <p class="error" *ngIf="error">{{ error }}</p>
 
-      <button type="submit" [disabled]="loading" class="login-btn">
+      <button class="login-btn" type="submit" [disabled]="loading">
         {{ loading ? 'Registering...' : 'Register' }}
       </button>
     </form>
 
+    <!-- FOOTER -->
     <div class="login-footer">
       <p *ngIf="!isRegisterMode">
-        Don't have an account? <a (click)="toggleRegisterMode()">Register as Student</a>
+        Don’t have an account?
+        <a (click)="toggleRegisterMode()">Register as Student</a>
       </p>
+
       <p *ngIf="isRegisterMode">
-        Already have an account? <a (click)="toggleRegisterMode()">Login here</a>
+        Already have an account?
+        <a (click)="toggleRegisterMode()">Login here</a>
       </p>
-      <div class="info-text">
-        <small>Staff and Admin: Use your institutional email to login</small>
-      </div>
     </div>
+
   </div>
 </div>

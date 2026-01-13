@@ -13,21 +13,20 @@ import { Router } from '@angular/router';
 export class StudentLoginComponent {
 
   // 🔐 Login fields
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
 
   // 📝 Registration fields
-  fullName: string = '';
-  admissionNumber: string = '';
-  passwordConfirm: string = '';
+  fullName = '';
+  admissionNumber = '';
+  passwordConfirm = '';
 
   // 🔄 UI state
-  isRegisterMode: boolean = false;
-  loading: boolean = false;
+  isRegisterMode = false;
+  loading = false;
 
   // ❌ Error handling
-  error: string = '';
-  errorMessage: string = '';
+  error = '';
 
   constructor(private router: Router) {}
 
@@ -35,7 +34,6 @@ export class StudentLoginComponent {
     this.loading = true;
     this.error = '';
 
-    // TEMP logic (replace with API later)
     setTimeout(() => {
       this.loading = false;
 
@@ -57,7 +55,6 @@ export class StudentLoginComponent {
       return;
     }
 
-    // TEMP logic
     setTimeout(() => {
       this.loading = false;
       this.isRegisterMode = false;
