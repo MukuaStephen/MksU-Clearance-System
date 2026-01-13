@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django_filters',
-    'django_extensions',
-    'drf_spectacular',
     
     # Local apps
     'apps.users',
@@ -166,7 +164,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
@@ -174,33 +171,6 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/hour',
         'user': '1000/hour'
-    }
-}
-
-# drf-spectacular (OpenAPI) settings
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Machakos Clearance System API',
-    'DESCRIPTION': 'OpenAPI schema for MKSU clearance workflows, approvals, finance, notifications, and audit logs.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    'COMPONENT_SPLIT_REQUEST': True,
-    'SCHEMA_PATH_PREFIX': r'/api',
-    'SECURITY': [
-        {'BearerAuth': []}
-    ],
-    'AUTHENTICATION_WHITELIST': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'POSTPROCESSING_HOOKS': [],
-}
-
-SPECTACULAR_SETTINGS['SECURITY_SCHEMES'] = {
-    'BearerAuth': {
-        'type': 'http',
-        'scheme': 'bearer',
-        'bearerFormat': 'JWT',
-        'description': 'JWT Bearer authentication via Authorization: Bearer <token>'
     }
 }
 

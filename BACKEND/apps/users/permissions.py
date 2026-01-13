@@ -129,14 +129,16 @@ class CanApproveClearance(permissions.BasePermission):
         if request.user.role == 'admin':
             return True
         
-        # Department staff can only approve for their department
+        # Department staff can only approve for their assigned department
         if request.user.role == 'department_staff':
+            # Check if user has a department assigned
+            if not hasattr(request.user, 'department') or not request.user.department:
+                return False
+            
             # obj should be a ClearanceApproval instance
             if hasattr(obj, 'department'):
-                # Check if staff member is assigned to this department
-                # This requires checking department head or staff assignments
-                # For now, we'll allow if they have department_staff role
-                return True
+                # Staff can only approve for their assigned department
+                return obj.department == request.user.department
         
         return False
 

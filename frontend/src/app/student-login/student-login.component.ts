@@ -70,15 +70,19 @@ export class StudentLoginComponent {
       },
       (error: any) => {
         this.loading = false;
-        console.error('Login error:', error);
         
-        if (error.status === 401) {
-          this.error = 'Invalid email or password';
+        // Handle different error types with user-friendly messages
+        if (error.status === 401 || error.status === 400) {
+          this.error = 'Wrong email or password. Please try again.';
         } else if (error.status === 0) {
-          this.error = 'Cannot connect to server. Please ensure backend is running on port 8000.';
+          this.error = 'Cannot connect to server. Please check your connection.';
+        } else if (error.name === 'TimeoutError') {
+          this.error = 'Request timed out. Please try again.';
         } else {
-          this.error = error.error?.detail || 'Login failed. Please try again.';
+          this.error = error.error?.detail || error.error?.message || 'Login failed. Please try again.';
         }
+        
+        console.error('Login error:', error);
       }
     );
   }
