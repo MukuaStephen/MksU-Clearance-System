@@ -1,8 +1,127 @@
 <div class="login-container">
-  <h2>Student Login</h2>
+  <div class="login-box">
+    <div class="login-header">
+      <h1>MksU Clearance System</h1>
+      <p>{{ isRegisterMode ? 'Student Registration' : 'Login to Your Account' }}</p>
+      <p class="subtitle">{{ isRegisterMode ? 'Create your student account' : 'Automatic role-based access for Students, Staff, and Admins' }}</p>
+    </div>
 
-  <input type="text" placeholder="Student Number" />
-  <input type="password" placeholder="Password" />
+    <!-- Login Form -->
+    <form *ngIf="!isRegisterMode" (ngSubmit)="login()" class="login-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="student@mksu.ac.ke"
+          required
+        />
+      </div>
 
-  <button (click)="login()">Sign In</button>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <button type="submit" [disabled]="loading" class="login-btn">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <!-- Registration Form -->
+    <form *ngIf="isRegisterMode" (ngSubmit)="register()" class="login-form">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          [(ngModel)]="fullName"
+          name="fullName"
+          placeholder="Your full name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="admissionNumber">Admission Number</label>
+        <input
+          type="text"
+          id="admissionNumber"
+          [(ngModel)]="admissionNumber"
+          name="admissionNumber"
+          placeholder="e.g., SCE/CS/0001/2024"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="student@mksu.ac.ke"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="passwordConfirm">Confirm Password</label>
+        <input
+          type="password"
+          id="passwordConfirm"
+          [(ngModel)]="passwordConfirm"
+          name="passwordConfirm"
+          placeholder="Confirm your password"
+          required
+        />
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <button type="submit" [disabled]="loading" class="login-btn">
+        {{ loading ? 'Registering...' : 'Register' }}
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p *ngIf="!isRegisterMode">
+        Don't have an account? <a (click)="toggleRegisterMode()">Register as Student</a>
+      </p>
+      <p *ngIf="isRegisterMode">
+        Already have an account? <a (click)="toggleRegisterMode()">Login here</a>
+      </p>
+      <div class="info-text">
+        <small>Staff and Admin: Use your institutional email to login</small>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,70 @@
+<div class="staff-dashboard">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h2>Staff Dashboard</h2>
+    </div>
+    <div class="navbar-menu">
+      <button (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Clearance Requests Management</h1>
+      <p>Review and approve student clearance requests</p>
+    </div>
+
+    <div class="filters">
+      <label for="status-filter">Filter by Status:</label>
+      <select id="status-filter" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+        <option value="all">All Requests</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <p>Loading clearance requests...</p>
+    </div>
+
+    <div *ngIf="!loading" class="clearances-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Submitted Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let clearance of filteredClearances" [class.pending]="clearance.status === 'pending'">
+            <td>{{ clearance.student_name }}</td>
+            <td>{{ clearance.department }}</td>
+            <td>
+              <span [class]="'badge ' + clearance.status">
+                {{ clearance.status | uppercase }}
+              </span>
+            </td>
+            <td>{{ clearance.submitted_date }}</td>
+            <td class="actions">
+              <button (click)="viewDetails(clearance.id)" class="btn btn-info">View</button>
+              <button *ngIf="clearance.status === 'pending'" (click)="approveClearance(clearance.id)" class="btn btn-success">
+                Approve
+              </button>
+              <button *ngIf="clearance.status === 'pending'" (click)="rejectClearance(clearance.id)" class="btn btn-danger">
+                Reject
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="filteredClearances.length === 0" class="empty-state">
+        <p>No clearance requests found</p>
+      </div>
+    </div>
+  </div>
+</div>
