@@ -21,14 +21,22 @@ def create_test_users():
             'username': 'admin@mksu.ac.ke',
             'first_name': 'Admin',
             'last_name': 'User',
+            'full_name': 'System Administrator',
+            'admission_number': 'ADMIN001',
             'role': 'admin',
             'is_staff': True,
             'is_superuser': True
         }
     )
+    # Update role even if user already exists
+    admin.role = 'admin'
+    admin.full_name = 'System Administrator'
+    admin.admission_number = 'ADMIN001'
+    admin.is_staff = True
+    admin.is_superuser = True
     admin.set_password('admin123')
     admin.save()
-    print(f'✓ {"Created" if created else "Updated"} admin user: {admin.email}')
+    print(f'✓ {"Created" if created else "Updated"} admin user: {admin.email} (role: {admin.role})')
 
     # Create or Update Department Staff User
     staff, created = User.objects.get_or_create(
@@ -37,12 +45,18 @@ def create_test_users():
             'username': 'staff@mksu.ac.ke',
             'first_name': 'Department',
             'last_name': 'Staff',
+            'full_name': 'Department Staff User',
+            'admission_number': 'STAFF001',
             'role': 'department_staff'
         }
     )
+    # Update role even if user already exists
+    staff.role = 'department_staff'
+    staff.full_name = 'Department Staff User'
+    staff.admission_number = 'STAFF001'
     staff.set_password('staff123')
     staff.save()
-    print(f'✓ {"Created" if created else "Updated"} staff user: {staff.email}')
+    print(f'✓ {"Created" if created else "Updated"} staff user: {staff.email} (role: {staff.role})')
 
     # Create or Update Student User
     student, created = User.objects.get_or_create(
@@ -51,12 +65,18 @@ def create_test_users():
             'username': 'student@example.com',
             'first_name': 'Test',
             'last_name': 'Student',
+            'full_name': 'Test Student',
+            'admission_number': 'STD001',
             'role': 'student'
         }
     )
+    # Update role even if user already exists
+    student.role = 'student'
+    student.full_name = 'Test Student'
+    student.admission_number = 'STD001'
     student.set_password('password123')
     student.save()
-    print(f'✓ {"Created" if created else "Updated"} student user: {student.email}')
+    print(f'✓ {"Created" if created else "Updated"} student user: {student.email} (role: {student.role})')
 
     print('\n✅ Test users setup complete!')
     print('\nLogin Credentials:')

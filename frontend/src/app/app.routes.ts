@@ -15,6 +15,7 @@ export const routes: Routes = [
 
   // Student Routes
   { path: 'dashboard', component: StudentDashboardComponent },
+  { path: 'student-dashboard', redirectTo: 'dashboard', pathMatch: 'full' },
 
   // Staff Routes
   { path: 'staff/dashboard', component: StaffDashboardComponent },
