@@ -113,33 +113,50 @@ class IsStudentOwnerOrAdmin(permissions.BasePermission):
 class CanApproveClearance(permissions.BasePermission):
     """
     Permission for approving clearances
-    Only department staff (for their department) or admins can approve
+    Only department-specific staff (for their department) or admins can approve
     """
     message = "You do not have permission to approve this clearance."
-    
+
     def has_permission(self, request, view):
         return (
-            request.user 
-            and request.user.is_authenticated 
-            and request.user.role in ['admin', 'department_staff']
+            request.user
+            and request.user.is_authenticated
+            and request.user.role in [
+                'admin',
+                'department_staff',
+                'library_staff',
+                'finance_staff',
+                'hostel_staff',
+                'academic_staff',
+                'gown_issuance_staff',
+                'clearance_officer'
+            ]
         )
-    
+
     def has_object_permission(self, request, view, obj):
         # Admins can approve any clearance
         if request.user.role == 'admin':
             return True
-        
-        # Department staff can only approve for their assigned department
-        if request.user.role == 'department_staff':
+
+        # Department-specific staff can only approve for their assigned department
+        if request.user.role in [
+            'department_staff',
+            'library_staff',
+            'finance_staff',
+            'hostel_staff',
+            'academic_staff',
+            'gown_issuance_staff',
+            'clearance_officer'
+        ]:
             # Check if user has a department assigned
             if not hasattr(request.user, 'department') or not request.user.department:
                 return False
-            
+
             # obj should be a ClearanceApproval instance
             if hasattr(obj, 'department'):
                 # Staff can only approve for their assigned department
                 return obj.department == request.user.department
-        
+
         return False
 
 

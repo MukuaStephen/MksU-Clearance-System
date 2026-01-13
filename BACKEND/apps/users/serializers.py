@@ -8,21 +8,29 @@ from apps.users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for User model - used for user profile display"""
+    """Serializer for User model - used for user profile display and creation"""
     
     role_display = serializers.CharField(source='get_role_display_name', read_only=True)
     department_name = serializers.CharField(source='department.name', read_only=True)
     department_code = serializers.CharField(source='department.code', read_only=True)
-    
+    password = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = User
         fields = [
             'id', 'email', 'admission_number', 'full_name', 
             'role', 'role_display', 'department', 'department_name', 
-            'department_code', 'is_active', 'created_at', 'updated_at'
+            'department_code', 'is_active', 'created_at', 'updated_at', 'password'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at', 'role_display', 
                            'department_name', 'department_code']
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)  # Hash the password
+        user.save()
+        return user
 
 
 class RegisterSerializer(serializers.ModelSerializer):

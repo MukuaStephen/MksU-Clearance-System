@@ -12,6 +12,7 @@ from apps.users.views import (
     CustomTokenObtainPairView,
     verify_token,
     health_check,
+    UserListCreateView,
 )
 
 app_name = 'users'
@@ -31,4 +32,7 @@ urlpatterns = [
     
     # Health check
     path('health/', health_check, name='health_check'),
+
+    # User management endpoint
+    path('', UserListCreateView.as_view(), name='user_list_create'),
 ]

@@ -12,6 +12,12 @@ class User(AbstractUser):
         ('admin', 'Administrator'),
         ('department_staff', 'Department Staff'),
         ('student', 'Student'),
+        ('library_staff', 'Library Staff'),
+        ('finance_staff', 'Finance Staff'),
+        ('hostel_staff', 'Hostel Staff'),
+        ('academic_staff', 'Academic Staff'),
+        ('gown_issuance_staff', 'Gown Issuance Staff'),
+        ('clearance_officer', 'Clearance Officer')
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -25,7 +31,7 @@ class User(AbstractUser):
     )
     full_name = models.CharField(max_length=255)
     role = models.CharField(
-        max_length=20,
+        max_length=50,
         choices=ROLE_CHOICES,
         default='student',
         help_text="User role in the system"

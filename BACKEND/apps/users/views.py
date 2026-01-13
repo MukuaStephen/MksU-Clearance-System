@@ -190,3 +190,10 @@ def health_check(request):
         'status': 'healthy',
         'message': 'MksU Clearance System API is running'
     }, status=status.HTTP_200_OK)
+
+
+class UserListCreateView(generics.ListCreateAPIView):
+    """View to list and create users"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAdminUser]

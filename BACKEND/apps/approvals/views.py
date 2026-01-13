@@ -83,7 +83,7 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
         Department staff see only their department's approvals
         """
         user = self.request.user
-        
+
         if user.role == 'admin':
             # Admins see all approvals
             return ClearanceApproval.objects.select_related(
@@ -91,9 +91,16 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
                 'department',
                 'approved_by'
             ).all()
-        elif user.role == 'department_staff':
-            # Department staff see only their department's approvals
-            # TODO: Add department field to User model for proper filtering
+        elif user.role in [
+            'department_staff',
+            'library_staff',
+            'finance_staff',
+            'hostel_staff',
+            'academic_staff',
+            'gown_issuance_staff',
+            'clearance_officer'
+        ]:
+            # Department-specific staff see only their department's approvals
             if hasattr(user, 'department') and user.department:
                 return ClearanceApproval.objects.filter(
                     department=user.department
@@ -102,13 +109,7 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
                     'department',
                     'approved_by'
                 )
-            # For now, let staff see all approvals since User doesn't have department field
-            return ClearanceApproval.objects.select_related(
-                'clearance_request__student__user',
-                'department',
-                'approved_by'
-            ).all()
-        
+
         return ClearanceApproval.objects.none()
     
     def get_permissions(self):

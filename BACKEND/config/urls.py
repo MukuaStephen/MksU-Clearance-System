@@ -25,6 +25,7 @@ urlpatterns = [
     
     # API endpoints (to be added)
     path('api/auth/', include('apps.users.urls')),
+    path('api/users/', include('apps.users.urls')),
     path('api/students/', include('apps.students.urls')),
     path('api/departments/', include('apps.departments.urls')),
     path('api/clearances/', include('apps.clearances.urls')),
