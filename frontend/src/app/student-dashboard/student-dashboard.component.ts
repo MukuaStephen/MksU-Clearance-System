@@ -19,17 +19,20 @@ import { ClearanceService } from '../services/clearance.service';
 })
 export class StudentDashboardComponent {
 
+  // controls content area
   activeView: 'dashboard' | 'clearance' | 'profile' = 'dashboard';
 
-  oldPassword: string = '';
-  newPassword: string = '';
-  passwordMessage: string = '';
+  // profile/password
+  oldPassword = '';
+  newPassword = '';
+  passwordMessage = '';
 
   constructor(
     public clearanceService: ClearanceService,
     private router: Router
   ) {}
 
+  // ===== SIDEBAR ACTIONS =====
   showDashboard(): void {
     this.activeView = 'dashboard';
   }
@@ -44,7 +47,7 @@ export class StudentDashboardComponent {
   }
 
   logout(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   changePassword(): void {
