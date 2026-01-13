@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class ApiService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/login/`, { email, password }).pipe(
+      timeout(10000), // 10 second timeout
       tap((response: any) => {
         // Backend returns tokens under response.tokens { access, refresh }
         const tokens = response?.tokens || {};

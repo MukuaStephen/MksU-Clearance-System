@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 
 export interface ClearanceRecord {
@@ -24,8 +24,16 @@ export class ClearanceService {
 
   loadClearanceStatus(): void {
     const userId = this.apiService.getUserId();
+    const userRole = this.apiService.getUserRole();
+    
     if (!userId) {
       // Set default records if not authenticated
+      this.setDefaultRecords();
+      return;
+    }
+
+    // Only load clearances for students
+    if (userRole !== 'student') {
       this.setDefaultRecords();
       return;
     }
@@ -46,6 +54,10 @@ export class ClearanceService {
       },
       (error: any) => {
         console.error('Error loading clearances:', error);
+        // If it's a 500 error (likely no student profile), set defaults
+        if (error.status === 500 || error.status === 404) {
+          console.warn('No student profile found. Using default clearance departments.');
+        }
         this.setDefaultRecords();
       }
     );
@@ -102,21 +114,36 @@ export class ClearanceService {
   }
 
   submitClearance(office: string): Observable<any> {
-    const userId = this.apiService.getUserId();
+    console.log('submitClearance called for office:', office);
     
-    if (!userId) {
-      throw new Error('User not authenticated');
-    }
-
-    // Create clearance request via API
-    const clearanceData = {
-      student: userId,
-      clearance_type: 'graduation',
-      status: 'pending'
-    };
-
-    return this.apiService.createClearance(clearanceData).pipe(
+    // Get students list to find current user's student profile
+    return this.apiService.getStudents().pipe(
+      switchMap((response: any) => {
+        console.log('Students response:', response);
+        const students = Array.isArray(response) ? response : response.results || [];
+        console.log('Students array:', students);
+        
+        // Find the current user's student profile
+        const userEmail = this.apiService.getUserEmail();
+        console.log('Looking for student with email:', userEmail);
+        
+        const studentProfile = students.find((s: any) => s.user?.email === userEmail || s.email === userEmail);
+        console.log('Found student profile:', studentProfile);
+        
+        if (!studentProfile) {
+          throw new Error('No student profile found. Please contact administrator to create your student profile.');
+        }
+        
+        // Create clearance request with student profile ID
+        const clearanceData = {
+          student_id: studentProfile.id
+        };
+        
+        console.log('Submitting clearance with data:', clearanceData);
+        return this.apiService.createClearance(clearanceData);
+      }),
       tap(() => {
+        console.log('Clearance submitted successfully, reloading status...');
         // Reload clearance status after submission
         this.loadClearanceStatus();
       })

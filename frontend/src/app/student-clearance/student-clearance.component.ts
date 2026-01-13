@@ -35,12 +35,14 @@ export class StudentClearanceComponent implements OnInit {
   }
 
   submit(office: string): void {
+    console.log('Submit button clicked for office:', office);
     this.loading = true;
     this.error = '';
 
     this.clearanceService.submitClearance(office).subscribe(
       (response: any) => {
         this.loading = false;
+        console.log('Clearance submitted successfully:', response);
         // Record will be updated via the service's reload
       },
       (error: any) => {
@@ -49,9 +51,13 @@ export class StudentClearanceComponent implements OnInit {
         
         if (error.status === 0) {
           this.error = 'Cannot connect to server. Please ensure backend is running.';
+        } else if (error.message) {
+          this.error = error.message;
         } else {
-          this.error = 'Failed to submit clearance. Please try again.';
+          this.error = error.error?.detail || error.error?.message || 'Failed to submit clearance. Please try again.';
         }
+        
+        alert(this.error);
       }
     );
   }
