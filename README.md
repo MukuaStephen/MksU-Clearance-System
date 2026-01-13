@@ -3,7 +3,7 @@
 A comprehensive full-stack web application for automating Machakos University's graduation clearance process. The system digitizes the clearance workflow, enabling seamless communication between students, department staff, and administrators.
 
 **Status**: ✅ Production Ready  
-**Tech Stack**: Django 4.2.7 + Angular 21.0.0  
+**Tech Stack**: Django 4.2.7 + Angular 21.1.0  
 **Last Updated**: January 13, 2026
 
 ---
