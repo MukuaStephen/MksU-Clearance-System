@@ -23,11 +23,11 @@ export class StudentDashboardComponent implements OnInit {
   activeView: 'dashboard' | 'clearance' | 'profile' = 'dashboard';
 
   // profile/password
-  oldPassword = '';
-  newPassword = '';
-  passwordMessage = '';
-  userEmail = '';
-  userName = '';
+  oldPassword: string = '';
+  newPassword: string = '';
+  passwordMessage: string = '';
+  userEmail: string = '';
+  userName: string = '';
 
   constructor(
     public clearanceService: ClearanceService,

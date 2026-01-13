@@ -37,8 +37,8 @@ export class StudentLoginComponent {
 
     // Validate input
     if (!this.email || !this.password) {
+      this.error = 'Please enter email and password';
       this.loading = false;
-      this.error = 'Please enter your email and password';
       return;
     }
 
@@ -47,18 +47,25 @@ export class StudentLoginComponent {
       (response: any) => {
         this.loading = false;
         
-        // Get user role from localStorage (set by ApiService)
-        const userRole = localStorage.getItem('user_role');
+        // Debug: Log the response to see what we're getting
+        console.log('Login response:', response);
+        console.log('User object:', response.user);
+        console.log('User role from response:', response.user?.role);
+        console.log('User role from service:', this.apiService.getUserRole());
         
-        // Route based on user role
-        if (userRole === 'admin') {
+        // Navigate based on user role
+        const role = response.user?.role || this.apiService.getUserRole();
+        console.log('Final role used for routing:', role);
+        
+        if (role === 'admin') {
+          console.log('Routing to admin dashboard');
           this.router.navigate(['/admin/dashboard']);
-        } else if (userRole === 'department_staff') {
+        } else if (role === 'department_staff' || role === 'staff') {
+          console.log('Routing to staff dashboard');
           this.router.navigate(['/staff/dashboard']);
-        } else if (userRole === 'student') {
-          this.router.navigate(['/dashboard']);
         } else {
-          this.error = 'Unknown user role. Please contact support.';
+          console.log('Routing to student dashboard');
+          this.router.navigate(['/dashboard']);
         }
       },
       (error: any) => {
