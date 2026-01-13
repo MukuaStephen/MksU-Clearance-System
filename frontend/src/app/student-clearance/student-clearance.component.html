@@ -1,0 +1,26 @@
+<h3>Student Clearance</h3>
+
+<label>Clearance Reason</label>
+<select [(ngModel)]="selectedReason">
+  <option value="">Select reason</option>
+  <option>TVET Module Completion</option>
+  <option>Pending Graduation</option>
+  <option>Inter-University Transfer</option>
+</select>
+
+<div *ngIf="selectedReason">
+  <h4>Clearance Offices</h4>
+
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>Office</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let office of offices">
+      <td>{{ office }}</td>
+      <td>
+        <button (click)="submit(office)">Request Clearance</button>
+      </td>
+    </tr>
+  </table>
+</div>

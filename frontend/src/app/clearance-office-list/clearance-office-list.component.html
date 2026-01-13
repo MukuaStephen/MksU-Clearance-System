@@ -1,0 +1,36 @@
+<table class="office-table">
+  <thead>
+    <tr>
+      <th>Office</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let office of offices">
+      <td>{{ office.name }}</td>
+
+      <td>
+        <span
+          [ngClass]="office.status.toLowerCase().replace(' ', '-')"
+        >
+          {{ office.status }}
+        </span>
+      </td>
+
+      <td>
+        <button
+          *ngIf="office.status === 'Not Submitted'"
+          (click)="requestClearance(office)"
+        >
+          Request Clearance
+        </button>
+
+        <span *ngIf="office.status !== 'Not Submitted'">
+          —
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -22,5 +22,8 @@ export const routes: Routes = [
 
   // Admin Routes
   { path: 'admin/dashboard', component: AdminDashboardComponent },
-  { path: 'admin/user/:id', component: AdminDashboardComponent }
+  { path: 'admin/user/:id', component: AdminDashboardComponent },
+
+  // Catch-all redirect
+  { path: '**', redirectTo: 'login' }
 ];
