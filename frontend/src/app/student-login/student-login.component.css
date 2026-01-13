@@ -27,12 +27,12 @@
 }
 
 .slide-1 {
-  background-image: url('/mksugate.jpeg');
+  background-image: url('/assets/mksugate.jpeg');
   animation-delay: 0s;
 }
 
 .slide-2 {
-  background-image: url('/adbblock.jpg');
+  background-image: url('/assets/adb.webp');
   animation-delay: 3s;
 }
 
