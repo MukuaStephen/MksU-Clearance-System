@@ -30,6 +30,14 @@ class User(AbstractUser):
         default='student',
         help_text="User role in the system"
     )
+    department = models.ForeignKey(
+        'departments.Department',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='staff_members',
+        help_text="Department for department staff (only applicable for department_staff role)"
+    )
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -46,6 +54,7 @@ class User(AbstractUser):
             models.Index(fields=['email']),
             models.Index(fields=['admission_number']),
             models.Index(fields=['role']),
+            models.Index(fields=['department']),
         ]
     
     def __str__(self):

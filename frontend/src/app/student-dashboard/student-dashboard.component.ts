@@ -22,6 +22,7 @@ export class StudentDashboardComponent implements OnInit {
 
   activeView: 'dashboard' | 'clearance' | 'profile' = 'dashboard';
 
+  // profile/password
   oldPassword: string = '';
   newPassword: string = '';
   passwordMessage: string = '';
@@ -57,6 +58,7 @@ export class StudentDashboardComponent implements OnInit {
     );
   }
 
+  // ===== SIDEBAR ACTIONS =====
   showDashboard(): void {
     this.activeView = 'dashboard';
   }
