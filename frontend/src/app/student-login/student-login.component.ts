@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-student-login',
@@ -28,23 +29,53 @@ export class StudentLoginComponent {
   // Error handling
   error: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiService: ApiService) {}
 
   login(): void {
     this.loading = true;
     this.error = '';
 
-    // TEMP login logic (replace with backend later)
-    setTimeout(() => {
+    // Validate input
+    if (!this.email || !this.password) {
       this.loading = false;
+      this.error = 'Please enter your email and password';
+      return;
+    }
 
-      if (this.email && this.password) {
-        // ✅ CORRECT ROUTE
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.error = 'Invalid email or password';
+    // Call backend API for authentication
+    this.apiService.login(this.email, this.password).subscribe(
+      (response: any) => {
+        this.loading = false;
+        
+        // Get user role from localStorage (set by ApiService)
+        const userRole = localStorage.getItem('user_role');
+        
+        // Route based on user role
+        if (userRole === 'student') {
+          this.router.navigate(['/dashboard']);
+        } else if (userRole === 'department_staff') {
+          this.router.navigate(['/staff/dashboard']);
+        } else if (userRole === 'admin') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.error = 'Unknown user role. Please contact support.';
+        }
+      },
+      (error: any) => {
+        this.loading = false;
+        
+        // Handle different error types
+        if (error.status === 401) {
+          this.error = 'Invalid email or password';
+        } else if (error.status === 0) {
+          this.error = 'Cannot connect to server. Please check your connection.';
+        } else {
+          this.error = error.error?.detail || error.error?.message || 'Login failed. Please try again.';
+        }
+        
+        console.error('Login error:', error);
       }
-    }, 1000);
+    );
   }
 
   register(): void {
