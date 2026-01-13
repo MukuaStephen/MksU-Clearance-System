@@ -13,21 +13,21 @@ import { ApiService } from '../services/api.service';
 })
 export class StudentLoginComponent {
 
-  // Login fields
-  email: string = '';
-  password: string = '';
+  // 🔐 Login fields
+  email = '';
+  password = '';
 
-  // Registration fields
-  fullName: string = '';
-  admissionNumber: string = '';
-  passwordConfirm: string = '';
+  // 📝 Registration fields
+  fullName = '';
+  admissionNumber = '';
+  passwordConfirm = '';
 
-  // UI state
-  isRegisterMode: boolean = false;
-  loading: boolean = false;
+  // 🔄 UI state
+  isRegisterMode = false;
+  loading = false;
 
-  // Error handling
-  error: string = '';
+  // ❌ Error handling
+  error = '';
 
   constructor(private router: Router, private apiService: ApiService) {}
 
@@ -37,8 +37,8 @@ export class StudentLoginComponent {
 
     // Validate input
     if (!this.email || !this.password) {
+      this.error = 'Please enter email and password';
       this.loading = false;
-      this.error = 'Please enter your email and password';
       return;
     }
 
@@ -47,35 +47,38 @@ export class StudentLoginComponent {
       (response: any) => {
         this.loading = false;
         
-        // Get user role from localStorage (set by ApiService)
-        const userRole = localStorage.getItem('user_role');
+        // Debug: Log the response to see what we're getting
+        console.log('Login response:', response);
+        console.log('User object:', response.user);
+        console.log('User role from response:', response.user?.role);
+        console.log('User role from service:', this.apiService.getUserRole());
         
-        // Route based on user role
-        if (userRole === 'admin') {
+        // Navigate based on user role
+        const role = response.user?.role || this.apiService.getUserRole();
+        console.log('Final role used for routing:', role);
+        
+        if (role === 'admin') {
+          console.log('Routing to admin dashboard');
           this.router.navigate(['/admin/dashboard']);
-        } else if (userRole === 'department_staff') {
+        } else if (role === 'department_staff' || role === 'staff') {
+          console.log('Routing to staff dashboard');
           this.router.navigate(['/staff/dashboard']);
-        } else if (userRole === 'student') {
-          this.router.navigate(['/dashboard']);
         } else {
-          this.error = 'Unknown user role. Please contact support.';
+          console.log('Routing to student dashboard');
+          this.router.navigate(['/dashboard']);
         }
       },
       (error: any) => {
         this.loading = false;
-        
-        // Handle different error types with user-friendly messages
-        if (error.status === 401 || error.status === 400) {
-          this.error = 'Wrong email or password. Please try again.';
-        } else if (error.status === 0) {
-          this.error = 'Cannot connect to server. Please check your connection.';
-        } else if (error.name === 'TimeoutError') {
-          this.error = 'Request timed out. Please try again.';
-        } else {
-          this.error = error.error?.detail || error.error?.message || 'Login failed. Please try again.';
-        }
-        
         console.error('Login error:', error);
+        
+        if (error.status === 401) {
+          this.error = 'Invalid email or password';
+        } else if (error.status === 0) {
+          this.error = 'Cannot connect to server. Please ensure backend is running on port 8000.';
+        } else {
+          this.error = error.error?.detail || 'Login failed. Please try again.';
+        }
       }
     );
   }
