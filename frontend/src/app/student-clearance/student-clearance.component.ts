@@ -8,7 +8,7 @@ import { ClearanceService, ClearanceRecord } from '../services/clearance.service
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule   // ✅ FIXED HERE
   ],
   templateUrl: './student-clearance.component.html',
   styleUrls: ['./student-clearance.component.css']
