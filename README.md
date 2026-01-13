@@ -140,8 +140,8 @@ MksU-Clearance-System/
 - **Caching**: In-memory (dev), Redis (production)
 
 ### Frontend
-- **Framework**: Angular 21.0.0
-- **Language**: TypeScript
+- **Framework**: Angular 21.1.0
+- **Language**: HTML, CSS, TypeScript
 - **HTTP Client**: Angular HttpClient
 - **Routing**: Angular Router
 - **Styling**: CSS (custom)

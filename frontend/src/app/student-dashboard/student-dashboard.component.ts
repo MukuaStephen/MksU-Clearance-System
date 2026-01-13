@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { StudentClearanceComponent } from '../student-clearance/student-clearance.component';
 import { ClearanceService } from '../services/clearance.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -17,22 +18,45 @@ import { ClearanceService } from '../services/clearance.service';
   templateUrl: './student-dashboard.component.html',
   styleUrls: ['./student-dashboard.component.css']
 })
-export class StudentDashboardComponent {
+export class StudentDashboardComponent implements OnInit {
 
-  // controls content area
   activeView: 'dashboard' | 'clearance' | 'profile' = 'dashboard';
 
-  // profile/password
-  oldPassword = '';
-  newPassword = '';
-  passwordMessage = '';
+  oldPassword: string = '';
+  newPassword: string = '';
+  passwordMessage: string = '';
+  userEmail: string = '';
+  userName: string = '';
 
   constructor(
     public clearanceService: ClearanceService,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ) {}
 
-  // ===== SIDEBAR ACTIONS =====
+  ngOnInit() {
+    // Check authentication
+    if (!this.apiService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Load user profile
+    this.userEmail = this.apiService.getUserEmail() || '';
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.apiService.getProfile().subscribe(
+      (response: any) => {
+        this.userName = response.full_name || response.email;
+      },
+      (error: any) => {
+        console.error('Error loading profile:', error);
+      }
+    );
+  }
+
   showDashboard(): void {
     this.activeView = 'dashboard';
   }
@@ -47,7 +71,16 @@ export class StudentDashboardComponent {
   }
 
   logout(): void {
-    this.router.navigate(['/login']);
+    this.apiService.logout().subscribe(
+      () => {
+        this.router.navigate(['/login']);
+      },
+      (error: any) => {
+        // Clear local storage and redirect even if logout fails
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
+    );
   }
 
   changePassword(): void {
@@ -56,8 +89,21 @@ export class StudentDashboardComponent {
       return;
     }
 
-    this.passwordMessage = 'Password changed successfully.';
-    this.oldPassword = '';
-    this.newPassword = '';
+    // Call backend API to change password
+    this.apiService.changePassword(this.oldPassword, this.newPassword).subscribe(
+      (response: any) => {
+        this.passwordMessage = 'Password changed successfully.';
+        this.oldPassword = '';
+        this.newPassword = '';
+      },
+      (error: any) => {
+        console.error('Password change error:', error);
+        if (error.error?.old_password) {
+          this.passwordMessage = 'Current password is incorrect.';
+        } else {
+          this.passwordMessage = 'Failed to change password. Please try again.';
+        }
+      }
+    );
   }
 }
