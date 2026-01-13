@@ -12,21 +12,21 @@ import { Router } from '@angular/router';
 })
 export class StudentLoginComponent {
 
-  // 🔐 Login fields
-  email = '';
-  password = '';
+  // Login fields
+  email: string = '';
+  password: string = '';
 
-  // 📝 Registration fields
-  fullName = '';
-  admissionNumber = '';
-  passwordConfirm = '';
+  // Registration fields
+  fullName: string = '';
+  admissionNumber: string = '';
+  passwordConfirm: string = '';
 
-  // 🔄 UI state
-  isRegisterMode = false;
-  loading = false;
+  // UI state
+  isRegisterMode: boolean = false;
+  loading: boolean = false;
 
-  // ❌ Error handling
-  error = '';
+  // Error handling
+  error: string = '';
 
   constructor(private router: Router) {}
 
@@ -34,11 +34,13 @@ export class StudentLoginComponent {
     this.loading = true;
     this.error = '';
 
+    // TEMP login logic (replace with backend later)
     setTimeout(() => {
       this.loading = false;
 
       if (this.email && this.password) {
-        this.router.navigate(['/student-dashboard']);
+        // ✅ CORRECT ROUTE
+        this.router.navigate(['/dashboard']);
       } else {
         this.error = 'Invalid email or password';
       }
