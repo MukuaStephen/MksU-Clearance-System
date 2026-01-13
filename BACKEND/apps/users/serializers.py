@@ -11,15 +11,18 @@ class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model - used for user profile display"""
     
     role_display = serializers.CharField(source='get_role_display_name', read_only=True)
+    department_name = serializers.CharField(source='department.name', read_only=True)
+    department_code = serializers.CharField(source='department.code', read_only=True)
     
     class Meta:
         model = User
         fields = [
             'id', 'email', 'admission_number', 'full_name', 
-            'role', 'role_display', 'is_active', 
-            'created_at', 'updated_at'
+            'role', 'role_display', 'department', 'department_name', 
+            'department_code', 'is_active', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'role_display']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'role_display', 
+                           'department_name', 'department_code']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -41,10 +44,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'email', 'admission_number', 'full_name',
-            'password', 'password_confirm', 'role'
+            'password', 'password_confirm', 'role', 'department'
         ]
         extra_kwargs = {
-            'role': {'required': False, 'default': 'student'}
+            'role': {'required': False, 'default': 'student'},
+            'department': {'required': False}
         }
     
     def validate(self, attrs):

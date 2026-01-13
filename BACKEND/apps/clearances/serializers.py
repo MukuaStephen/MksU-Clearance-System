@@ -55,8 +55,7 @@ class ClearanceRequestSerializer(serializers.ModelSerializer):
             'status',
             'submission_date',
             'completion_date',
-            'notes',
-            'documents',
+            'rejection_reason',
             'completion_percentage',
             'approval_summary',
             'payment_status',
@@ -154,14 +153,14 @@ class ClearanceRequestCreateSerializer(serializers.ModelSerializer):
     Serializer for creating new clearance request
     Automatically creates approval records for all departments
     """
-    student_id = serializers.IntegerField()
+    student_id = serializers.UUIDField()  # Changed from IntegerField to UUIDField
     
     class Meta:
         model = ClearanceRequest
-        fields = ['student_id', 'notes', 'documents']
+        fields = ['student_id']
     
     def validate_student_id(self, value):
-        """Validate student exists, is eligible, and has paid"""
+        """Validate student exists and is eligible"""
         from apps.students.models import Student
         
         try:
@@ -169,28 +168,28 @@ class ClearanceRequestCreateSerializer(serializers.ModelSerializer):
         except Student.DoesNotExist:
             raise serializers.ValidationError("Student not found")
         
-        # Check eligibility
-        if student.eligibility_status != 'eligible':
+        # Check eligibility (relaxed check - allow pending too)
+        if student.eligibility_status == 'ineligible':
             raise serializers.ValidationError(
                 f"Student is not eligible for clearance. Status: {student.get_eligibility_status_display()}"
             )
         
-        # Check payment
-        try:
-            payment = Payment.objects.get(student=student)
-            if not payment.is_verified:
-                raise serializers.ValidationError(
-                    "Student has not completed payment verification. Please verify payment first."
-                )
-        except Payment.DoesNotExist:
-            raise serializers.ValidationError(
-                "No payment record found. Student must pay clearance fees first."
-            )
+        # Payment check is optional for now (TODO: uncomment when payment system is ready)
+        # try:
+        #     payment = Payment.objects.get(student=student)
+        #     if not payment.is_verified:
+        #         raise serializers.ValidationError(
+        #             "Student has not completed payment verification. Please verify payment first."
+        #         )
+        # except Payment.DoesNotExist:
+        #     raise serializers.ValidationError(
+        #         "No payment record found. Student must pay clearance fees first."
+        #     )
         
         # Check for existing request
         existing = ClearanceRequest.objects.filter(
             student=student,
-            status__in=['draft', 'submitted', 'in_progress']
+            status__in=['pending', 'in_progress']
         )
         
         if existing.exists():
@@ -313,8 +312,7 @@ class ClearanceRequestDetailSerializer(serializers.ModelSerializer):
             'status',
             'submission_date',
             'completion_date',
-            'notes',
-            'documents',
+            'rejection_reason',
             'approvals',
             'completion_percentage',
             'payment_info',

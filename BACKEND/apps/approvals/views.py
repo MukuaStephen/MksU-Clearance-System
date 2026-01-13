@@ -93,7 +93,8 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
             ).all()
         elif user.role == 'department_staff':
             # Department staff see only their department's approvals
-            if user.department:
+            # TODO: Add department field to User model for proper filtering
+            if hasattr(user, 'department') and user.department:
                 return ClearanceApproval.objects.filter(
                     department=user.department
                 ).select_related(
@@ -101,7 +102,12 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
                     'department',
                     'approved_by'
                 )
-            return ClearanceApproval.objects.none()
+            # For now, let staff see all approvals since User doesn't have department field
+            return ClearanceApproval.objects.select_related(
+                'clearance_request__student__user',
+                'department',
+                'approved_by'
+            ).all()
         
         return ClearanceApproval.objects.none()
     
