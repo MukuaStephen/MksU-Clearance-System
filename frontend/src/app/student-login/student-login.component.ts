@@ -60,7 +60,15 @@ export class StudentLoginComponent {
         if (role === 'admin') {
           console.log('Routing to admin dashboard');
           this.router.navigate(['/admin/dashboard']);
-        } else if (role === 'department_staff' || role === 'staff') {
+        } else if (
+          role === 'department_staff' ||
+          role === 'library_staff' ||
+          role === 'finance_staff' ||
+          role === 'hostel_staff' ||
+          role === 'academic_staff' ||
+          role === 'gown_issuance_staff' ||
+          role === 'clearance_officer'
+        ) {
           console.log('Routing to staff dashboard');
           this.router.navigate(['/staff/dashboard']);
         } else {

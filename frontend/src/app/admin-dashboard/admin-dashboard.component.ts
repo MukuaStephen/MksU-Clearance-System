@@ -35,9 +35,16 @@ export class AdminDashboardComponent implements OnInit {
   };
 
   users: SystemUser[] = [];
+  newUser = {
+    email: '',
+    full_name: '',
+    role: 'student', // Default role
+    password: ''
+  };
   activeTab: string = 'dashboard';
   loading: boolean = false;
   error: string = '';
+  showAddUserForm = false;
 
   constructor(private router: Router, private apiService: ApiService) {}
 
@@ -143,6 +150,30 @@ export class AdminDashboardComponent implements OnInit {
         // Still redirect even if logout fails
         localStorage.clear();
         this.router.navigate(['/admin-login']);
+      }
+    );
+  }
+
+  toggleAddUserForm(): void {
+    this.showAddUserForm = !this.showAddUserForm;
+  }
+
+  addUser(): void {
+    if (!this.newUser.email || !this.newUser.full_name || !this.newUser.password) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    this.apiService.addUser(this.newUser).subscribe(
+      (response: any) => {
+        alert('User added successfully!');
+        this.loadUsers(); // Refresh the user list
+        this.newUser = { email: '', full_name: '', role: 'student', password: '' }; // Reset form
+        this.showAddUserForm = false; // Hide form
+      },
+      (error: any) => {
+        alert('Error adding user: ' + (error.error?.detail || 'Unknown error'));
+        console.error('Error adding user:', error);
       }
     );
   }

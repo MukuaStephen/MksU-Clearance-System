@@ -96,21 +96,47 @@
     <div *ngIf="activeTab === 'users'" class="tab-content">
       <div class="users-header">
         <h2>Users Management</h2>
-        <button class="btn btn-primary">+ Add New User</button>
+        <button class="btn btn-primary" (click)="toggleAddUserForm()">
+          {{ showAddUserForm ? 'Cancel' : '+ Add New User' }}
+        </button>
       </div>
 
-      <div *ngIf="loading" class="loading">
-        <p>Loading users...</p>
+      <div *ngIf="showAddUserForm" class="add-user-form">
+        <h3>Add New User</h3>
+        <form (ngSubmit)="addUser()">
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="newUser.email" name="email" required />
+
+          <label>Full Name:</label>
+          <input type="text" [(ngModel)]="newUser.full_name" name="full_name" required />
+
+          <label>Role:</label>
+          <select [(ngModel)]="newUser.role" name="role">
+            <option value="student">Student</option>
+            <option value="department_staff">Department Staff</option>
+            <option value="library_staff">Library Staff</option>
+            <option value="finance_staff">Finance Staff</option>
+            <option value="hostel_staff">Hostel Staff</option>
+            <option value="academic_staff">Academic Staff</option>
+            <option value="gown_issuance_staff">Gown Issuance Staff</option>
+            <option value="clearance_officer">Clearance Officer</option>
+            <option value="admin">Administrator</option>
+          </select>
+
+          <label>Password:</label>
+          <input type="password" [(ngModel)]="newUser.password" name="password" required />
+
+          <button type="submit" class="btn btn-success">Create User</button>
+        </form>
       </div>
 
-      <div *ngIf="!loading" class="users-list">
+      <div *ngIf="!showAddUserForm" class="users-list">
         <table>
           <thead>
             <tr>
               <th>Email</th>
               <th>Full Name</th>
               <th>Role</th>
-              <th>Created Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -123,7 +149,6 @@
                   {{ user.role | uppercase }}
                 </span>
               </td>
-              <td>{{ user.created_at }}</td>
               <td class="actions">
                 <button (click)="viewUserDetails(user.id)" class="btn btn-info">View</button>
                 <button (click)="deleteUser(user.id)" class="btn btn-danger">Delete</button>

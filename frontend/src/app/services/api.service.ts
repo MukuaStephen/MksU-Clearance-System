@@ -220,6 +220,19 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/finance/invoices/`, { headers: this.getHeaders() });
   }
 
+  // ============ Users ============
+  getUsers(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/users/`, { headers: this.getHeaders() });
+  }
+
+  addUser(userData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/users/`, userData, { headers: this.getHeaders() });
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/users/${userId}/`, { headers: this.getHeaders() });
+  }
+
   // ============ Helper Methods ============
   private getHeaders(): HttpHeaders {
     const token = this.getToken();
