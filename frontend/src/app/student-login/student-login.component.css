@@ -131,6 +131,8 @@
   45%  { opacity: 1; }
   55%  { opacity: 0; }
   100% { opacity: 0; }
+}
+
 .login-container {
   display: flex;
   justify-content: center;
