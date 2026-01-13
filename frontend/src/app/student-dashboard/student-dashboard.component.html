@@ -1,42 +1,225 @@
 <div class="dashboard-layout">
 
-  <!-- SIDEBAR -->
+  <!-- ===================================================== -->
+  <!-- ===================== SIDEBAR ======================= -->
+  <!-- ===================================================== -->
   <aside class="sidebar">
-    <h3 class="sidebar-title">Dashboard</h3>
 
-    <div class="sidebar-item" (click)="showDashboard()">Home</div>
+    <!-- ---------- SIDEBAR HEADER ---------- -->
+    <div class="sidebar-header">
+      <div class="avatar">
+        <span>ST</span>
+      </div>
 
-    <div class="sidebar-item" (click)="toggleClearanceMenu()">
-      Clearance
+      <h2 class="portal-name">Student Portal</h2>
+      <p class="portal-subtitle">University Clearance System</p>
     </div>
 
-    <div class="submenu" *ngIf="showClearanceMenu">
-      <div class="submenu-item" (click)="openClearance('TVET Module Completion')">
-        TVET Module Completion
-      </div>
-      <div class="submenu-item" (click)="openClearance('Pending Graduation')">
-        Pending Graduation
-      </div>
-      <div class="submenu-item" (click)="openClearance('Inter-University Transfer')">
-        Inter-University Transfer
-      </div>
+    <!-- ---------- SIDEBAR NAVIGATION ---------- -->
+    <div class="sidebar-navigation">
+
+      <!-- HOME BUTTON -->
+      <button class="nav-card" (click)="showDashboard()">
+        <h4>Home</h4>
+        <p>
+          View your clearance progress and see which offices
+          are pending, approved, or denied.
+        </p>
+      </button>
+
+      <!-- CLEARANCE BUTTON -->
+      <button class="nav-card" (click)="showClearance()">
+        <h4>Clearance</h4>
+        <p>
+          Submit clearance requests to the required
+          university offices.
+        </p>
+      </button>
+
+      <!-- PROFILE BUTTON -->
+      <button class="nav-card" (click)="showProfile()">
+        <h4>My Profile</h4>
+        <p>
+          View your personal details and change
+          your account password.
+        </p>
+      </button>
+
     </div>
 
-    <div class="sidebar-item">Profile</div>
-    <div class="sidebar-item">Logout</div>
+    <!-- ---------- SIDEBAR FOOTER ---------- -->
+    <div class="sidebar-footer">
+      <button class="nav-card logout-card" (click)="logout()">
+        <h4>Logout</h4>
+        <p>
+          Sign out and return to the student login page.
+        </p>
+      </button>
+    </div>
+
   </aside>
 
-  <!-- CONTENT -->
+  <!-- ===================================================== -->
+  <!-- ================= CONTENT AREA ====================== -->
+  <!-- ===================================================== -->
   <main class="dashboard-content">
 
+    <!-- ================= HOME / DASHBOARD ================= -->
     <section *ngIf="activeView === 'dashboard'">
-      <h2>Welcome, Student</h2>
-      <p>Here is an overview of your clearance progress.</p>
+
+      <h2>Clearance Progress Overview</h2>
+
+      <p class="section-description">
+        This dashboard shows your current clearance status across
+        all university offices. Any clearance request you submit
+        will automatically appear here as <strong>Pending</strong>
+        until approved or denied by the system administrator.
+      </p>
+
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Office</th>
+            <th>Status</th>
+            <th>Date Submitted</th>
+            <th>Remark</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let record of clearanceService.getAllRecords(); let i = index"
+          >
+            <td>{{ i + 1 }}</td>
+
+            <td>{{ record.office }}</td>
+
+            <td>
+              <span
+                class="status-badge"
+                [ngClass]="record.status.toLowerCase().replace(' ', '-')"
+              >
+                {{ record.status }}
+              </span>
+            </td>
+
+            <td>
+              {{ record.submittedAt
+                ? (record.submittedAt | date: 'medium')
+                : '—'
+              }}
+            </td>
+
+            <td>
+              <ng-container [ngSwitch]="record.status">
+                <span *ngSwitchCase="'Not Submitted'">
+                  No action has been taken yet.
+                </span>
+
+                <span *ngSwitchCase="'Pending'">
+                  Awaiting approval from the administrator.
+                </span>
+
+                <span *ngSwitchCase="'Approved'">
+                  Clearance approved successfully.
+                </span>
+
+                <span *ngSwitchCase="'Denied'">
+                  Clearance denied. Please contact the office.
+                </span>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
     </section>
 
+    <!-- ================= CLEARANCE ================= -->
     <section *ngIf="activeView === 'clearance'">
+
+      <h2>Apply for Clearance</h2>
+
+      <p class="section-description">
+        Use this section to submit clearance requests.
+        Once submitted, the request status will appear
+        on your dashboard as <strong>Pending</strong>.
+      </p>
+
       <app-student-clearance></app-student-clearance>
+
+    </section>
+
+    <!-- ================= PROFILE ================= -->
+    <section *ngIf="activeView === 'profile'">
+
+      <h2>My Profile</h2>
+
+      <p class="section-description">
+        This section displays your personal information
+        and allows you to change your account password.
+      </p>
+
+      <!-- PROFILE CARD -->
+      <div class="profile-box">
+
+        <img
+          src="https://via.placeholder.com/120"
+          alt="Student Photo"
+        >
+
+        <div class="profile-details">
+          <p>
+            <strong>Full Name:</strong>
+            John Mwangi
+          </p>
+
+          <p>
+            <strong>Email Address:</strong>
+            john.mwangi@student.university.ac.ke
+          </p>
+
+          <p>
+            <strong>Admission Number:</strong>
+            UNI/CSC/1234/2022
+          </p>
+        </div>
+
+      </div>
+
+      <!-- CHANGE PASSWORD -->
+      <h3>Change Password</h3>
+
+      <div class="password-form">
+
+        <input
+          type="password"
+          placeholder="Enter old password"
+          [(ngModel)]="oldPassword"
+        >
+
+        <input
+          type="password"
+          placeholder="Enter new password"
+          [(ngModel)]="newPassword"
+        >
+
+        <button (click)="changePassword()">
+          Update Password
+        </button>
+
+        <p
+          class="success-message"
+          *ngIf="passwordMessage"
+        >
+          {{ passwordMessage }}
+        </p>
+
+      </div>
+
     </section>
 
   </main>
+
 </div>

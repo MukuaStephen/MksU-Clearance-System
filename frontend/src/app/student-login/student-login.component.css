@@ -1,7 +1,134 @@
+/* ================= PAGE ================= */
+.login-page {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ================= BACKGROUND SLIDES ================= */
+.bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: slideFade 12s infinite;
+  z-index: 1;
+}
+
+/* IMAGE SOURCES */
+.slide-1 {
+  background-image: url('/mksugate.jpeg');
+  animation-delay: 0s;
+}
+
+.slide-2 {
+  background-image: url('/adbblock.jpg');
+  animation-delay: 6s;
+}
+
+/* DARK BLUE OVERLAY */
+.bg-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 28, 45, 0.75);
+}
+
+/* ================= LOGIN CONTAINER ================= */
 .login-container {
-  width: 300px;
-  margin: 100px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  max-width: 90%;
+  background: #ffffff;
+  padding: 42px 36px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+/* ================= LOGO ================= */
+.logo-section {
+  margin-bottom: 20px;
+}
+
+.logo-section img {
+  width: 110px;
+  height: auto;
+}
+
+/* ================= TEXT ================= */
+.login-container h2 {
+  margin-bottom: 6px;
+  color: #0b1c2d;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 28px;
+}
+
+/* ================= FORM ================= */
+.form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0b1c2d;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0b1c2d;
+}
+
+/* ================= BUTTON ================= */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: #0b1c2d;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+}
+
+.login-btn:hover {
+  background: #102a43;
+}
+
+/* ================= ERROR ================= */
+.error {
+  color: #b91c1c;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+/* ================= SLIDE ANIMATION ================= */
+@keyframes slideFade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  45%  { opacity: 1; }
+  55%  { opacity: 0; }
+  100% { opacity: 0; }
 }

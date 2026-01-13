@@ -1,19 +1,31 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './student-login.component.html',
   styleUrls: ['./student-login.component.css']
 })
 export class StudentLoginComponent {
 
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
+
   constructor(private router: Router) {}
 
-  login() {
+  login(): void {
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Please enter email and password.';
+      return;
+    }
+
+    // FRONTEND-ONLY LOGIN (simulation)
+    this.errorMessage = '';
     this.router.navigate(['/dashboard']);
   }
 }

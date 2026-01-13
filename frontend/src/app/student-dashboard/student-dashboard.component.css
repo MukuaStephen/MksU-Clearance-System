@@ -1,50 +1,106 @@
-.dashboard-layout {
-  display: flex;
-  min-height: 100vh;
-}
-
+/* ========== SIDEBAR LAYOUT ========== */
 .sidebar {
-  width: 230px;
-  background: #1e293b;
-  color: white;
-  padding: 20px;
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #0b1c2d,   /* dark navy blue */
+    #102a43
+  );
+  color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
 
-.sidebar-title {
-  margin-bottom: 20px;
+/* ========== HEADER ========== */
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.sidebar-item {
-  background: #334155;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  cursor: pointer;
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: #d4af37; /* GOLD */
+  color: #0b1c2d;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
 }
 
-.sidebar-item:hover {
-  background: #475569;
+.portal-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.submenu {
-  margin-left: 10px;
+.portal-subtitle {
+  font-size: 13px;
+  color: #cbd5e1;
 }
 
-.submenu-item {
-  background: #475569;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.submenu-item:hover {
-  background: #64748b;
-}
-
-.dashboard-content {
+/* ========== NAVIGATION AREA ========== */
+.sidebar-navigation {
   flex: 1;
-  padding: 30px;
-  background: #f4f6f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 26px;
+}
+
+/* ========== NAV BUTTONS ========== */
+.nav-card {
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3); /* gold border */
+  border-radius: 16px;
+  padding: 22px;
+  cursor: pointer;
+  color: #f9fafb;
+  transition: all 0.25s ease;
+}
+
+.nav-card h4 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #d4af37; /* GOLD text */
+}
+
+.nav-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+/* Hover effect */
+.nav-card:hover {
+  background: rgba(212, 175, 55, 0.15);
+  transform: translateX(8px);
+  border-color: #d4af37;
+}
+
+/* ========== FOOTER / LOGOUT ========== */
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.logout-card {
+  background: rgba(180, 38, 38, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.logout-card h4 {
+  color: #fff;
+}
+
+.logout-card:hover {
+  background: rgba(150, 20, 20, 1);
+  transform: translateX(6px);
 }

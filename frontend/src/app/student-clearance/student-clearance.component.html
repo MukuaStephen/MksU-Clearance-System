@@ -1,4 +1,4 @@
-<h3>Student Clearance</h3>
+<h3>Apply for Clearance</h3>
 
 <label>Clearance Reason</label>
 <select [(ngModel)]="selectedReason">
@@ -8,19 +8,27 @@
   <option>Inter-University Transfer</option>
 </select>
 
-<div *ngIf="selectedReason">
-  <h4>Clearance Offices</h4>
-
-  <table border="1" cellpadding="8">
+<table *ngIf="selectedReason" border="1" cellpadding="8" cellspacing="0">
+  <thead>
     <tr>
       <th>Office</th>
+      <th>Status</th>
       <th>Action</th>
     </tr>
-    <tr *ngFor="let office of offices">
-      <td>{{ office }}</td>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let record of records">
+      <td>{{ record.office }}</td>
+      <td>{{ record.status }}</td>
       <td>
-        <button (click)="submit(office)">Request Clearance</button>
+        <button
+          (click)="submit(record.office)"
+          [disabled]="record.status !== 'Not Submitted'">
+          Request Clearance
+        </button>
       </td>
     </tr>
-  </table>
-</div>
+  </tbody>
+</table>
+
