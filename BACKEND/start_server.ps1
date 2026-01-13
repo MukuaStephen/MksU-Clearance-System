@@ -1,13 +1,23 @@
+param(
+	[switch]$UseSQLite
+)
+
 # Start MksU Clearance System Backend Server
 Write-Host "Starting MksU Clearance System Backend Server..." -ForegroundColor Green
 Write-Host ""
 
-# Set environment variables
-$env:DB_ENGINE = "sqlite"
-$env:SQLITE_DB_PATH = "$PSScriptRoot\db.sqlite3"
-
 # Change to BACKEND directory
 Set-Location $PSScriptRoot
+
+# Configure database engine
+if ($UseSQLite) {
+	$env:DB_ENGINE = "sqlite"
+	$env:SQLITE_DB_PATH = "$PSScriptRoot\db.sqlite3"
+	Write-Host "Using database: SQLite ($env:SQLITE_DB_PATH)" -ForegroundColor Yellow
+} else {
+	if (-not $env:DB_ENGINE) { $env:DB_ENGINE = "mysql" }
+	Write-Host "Using database engine: $($env:DB_ENGINE) (configured via .env/env vars)" -ForegroundColor Yellow
+}
 
 Write-Host "Activating virtual environment..." -ForegroundColor Yellow
 & ".\venv\Scripts\Activate.ps1"

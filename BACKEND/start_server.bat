@@ -3,8 +3,16 @@ echo Starting MksU Clearance System Backend Server...
 echo.
 
 cd /d "%~dp0"
-set DB_ENGINE=sqlite
-set SQLITE_DB_PATH=%~dp0db.sqlite3
+
+rem Optional arg: "sqlite" to force SQLite for local quick runs
+if /I "%1"=="sqlite" (
+	set DB_ENGINE=sqlite
+	set SQLITE_DB_PATH=%~dp0db.sqlite3
+	echo Using database: SQLite at %SQLITE_DB_PATH%
+) else (
+	if "%DB_ENGINE%"=="" set DB_ENGINE=mysql
+	echo Using database engine: %DB_ENGINE% (from .env/env vars)
+)
 
 echo Activating virtual environment...
 call venv\Scripts\activate.bat
