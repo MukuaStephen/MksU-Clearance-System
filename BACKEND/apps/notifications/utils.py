@@ -119,6 +119,7 @@ def send_email_notification(notification):
 def notify_clearance_submitted(clearance_request):
     """
     Notify student and admin when clearance is submitted
+    Also notify department staff about pending approvals
     
     Args:
         clearance_request: ClearanceRequest object
@@ -132,11 +133,11 @@ def notify_clearance_submitted(clearance_request):
         clearance=clearance_request,
         send_email=True
     )
-    
+
     # Notify admins
     from apps.users.models import User
     admins = User.objects.filter(role='admin', is_active=True)
-    
+
     for admin in admins:
         create_notification(
             recipient=admin,
@@ -146,6 +147,16 @@ def notify_clearance_submitted(clearance_request):
             clearance=clearance_request,
             send_email=False  # Don't spam admins with emails
         )
+
+    # Notify department staff about pending approvals
+    from apps.approvals.models import ClearanceApproval
+    pending_approvals = ClearanceApproval.objects.filter(
+        clearance_request=clearance_request,
+        status='pending'
+    )
+
+    for approval in pending_approvals:
+        notify_approval_pending(approval)
 
 
 def notify_clearance_approved(clearance_request):

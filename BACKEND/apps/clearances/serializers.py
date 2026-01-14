@@ -186,17 +186,6 @@ class ClearanceRequestCreateSerializer(serializers.ModelSerializer):
         #         "No payment record found. Student must pay clearance fees first."
         #     )
         
-        # Check for existing request
-        existing = ClearanceRequest.objects.filter(
-            student=student,
-            status__in=['pending', 'in_progress']
-        )
-        
-        if existing.exists():
-            raise serializers.ValidationError(
-                "Student already has a clearance request in progress"
-            )
-        
         return value
     
     def create(self, validated_data):
@@ -208,10 +197,10 @@ class ClearanceRequestCreateSerializer(serializers.ModelSerializer):
         student_id = validated_data.pop('student_id')
         student = Student.objects.get(id=student_id)
         
-        # Create clearance request with draft status
+        # Create clearance request with initial pending status
         clearance_request = ClearanceRequest.objects.create(
             student=student,
-            status='draft',
+            status='pending',
             **validated_data
         )
         

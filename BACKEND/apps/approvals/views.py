@@ -155,22 +155,8 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Check if this is the next department in line
+        # Get related clearance request (no enforced department order)
         clearance_request = approval.clearance_request
-        
-        # Get first pending approval by order
-        first_pending = clearance_request.approvals.filter(
-            status='pending'
-        ).order_by('department__approval_order').first()
-        
-        if first_pending and first_pending.id != approval.id:
-            return Response(
-                {
-                    'error': 'Approvals must be processed in order',
-                    'next_department': first_pending.department.name
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
         
         # Process approval
         if action_type == 'approve':
@@ -297,19 +283,6 @@ class ClearanceApprovalViewSet(viewsets.ModelViewSet):
         for approval in approvals:
             try:
                 clearance_request = approval.clearance_request
-                
-                # Check order
-                first_pending = clearance_request.approvals.filter(
-                    status='pending'
-                ).order_by('department__approval_order').first()
-                
-                if first_pending and first_pending.id != approval.id:
-                    errors.append({
-                        'approval_id': approval.id,
-                        'error': 'Not next in approval order'
-                    })
-                    failed_count += 1
-                    continue
                 
                 # Process
                 if action_type == 'approve':
