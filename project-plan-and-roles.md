@@ -36,7 +36,7 @@ A unified online platform that automates the entire clearance lifecycle:
 
 ## Technology Stack
 
-- **Frontend:** HTML, CSS, Typescript
+- **Frontend:** HTML, CSS, Javascipt, Typescript
 - **Framework:** Angular.
 - **Backend:** Python
 - **Framework:** Django
